@@ -196,8 +196,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 525600!5 years!!105192
-          DT == 300.0d0 !1200d0
+      NTIMES == 525960!5 years
+          DT == 300.0d0 
      NDTFAST == 30
 
 ! Model iteration loops parameters.
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == -1
    LcycleRST == T
-        NRST == 105120!1year
+        NRST == 105192!1year
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,11 +227,11 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 8760!1month40
-     NDEFHIS == 105120!1year
+        NHIS == 8766!1month
+     NDEFHIS == 105192!1year
       NTSAVG == 1!
-        NAVG == 8760
-     NDEFAVG == 105120
+        NAVG == 8766
+     NDEFAVG == 105192
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -372,9 +372,9 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! origin for tidal forcing, and model reference time for output
 ! NetCDF units attribute.
 
-      DSTART =  0.0d0                      ! days
+      DSTART =  0.0d0                   ! days
   TIDE_START =  0.0d0                   ! days
-    TIME_REF =  20070101.0d0                      ! yyyymmdd.dd
+    TIME_REF =  0                       ! yyyymmdd.dd
 
 ! Nudging/relaxation time scales, inverse scales will be computed
 ! internally, [1:Ngrids].
@@ -773,8 +773,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == Data/waom10/waom10_grd.nc
-     ININAME == Data/waom10/waom10_hack.nc
+     GRDNAME == /g/data2/gh9/oxr581/waom10_data/waom10_grd.nc
+     ININAME == ocean_rst.nc!/g/data2/gh9/oxr581/waom10_data/waom10_hack.nc!Data/waom10/waom10_ini_large.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -793,7 +793,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == Data/waom10/waom10_bry.nc
+     BRYNAME == /g/data2/gh9/oxr581/waom10_data/waom10_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -818,9 +818,9 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 3                          ! number of unique forcing files
 
-     FRCNAME == Data/waom10/waom10_tds.nc \
-                Data/waom10/waom10_nudge.nc \
-                Data/waom10/waom10_sbc.nc      ! two forcing files for surface and tidal forcing
+     FRCNAME == /g/data2/gh9/oxr581/waom10_data/waom10_tds.nc \
+                /g/data2/gh9/oxr581/waom10_data/waom10_sbc.nc \
+                /g/data2/gh9/oxr581/waom10_data/waom10_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
                 
 
 
