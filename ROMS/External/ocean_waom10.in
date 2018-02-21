@@ -227,9 +227,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 8766!1month
-     NDEFHIS == 105192!1year
-      NTSAVG == 1!
+        NHIS == 0!8766!1month
+     NDEFHIS == 0!105192!1year
+      NTSAVG == 0!
         NAVG == 8766
      NDEFAVG == 105192
       NTSDIA == 0
@@ -672,7 +672,7 @@ Aout(idDano) == T       ! rho                density anomaly
 Aout(idVvis) == F       ! AKv                vertical viscosity
 Aout(idTdif) == F       ! AKt                vertical T-diffusion
 Aout(idSdif) == F       ! AKs                vertical Salinity diffusion
-Aout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
+Aout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
 Aout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
 
 Aout(id2dRV) == F       ! pvorticity_bar     2D relative vorticity
