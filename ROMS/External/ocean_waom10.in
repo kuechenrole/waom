@@ -196,7 +196,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 525960!5 years
+      NTIMES == 525600!5 years
           DT == 300.0d0 
      NDTFAST == 30
 
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == -1
    LcycleRST == T
-        NRST == 105192!1year
+        NRST == 105120!1year
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -230,8 +230,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
         NHIS == 0!8766!1month
      NDEFHIS == 0!105192!1year
       NTSAVG == 0!
-        NAVG == 8766
-     NDEFAVG == 105192
+        NAVG == 8760
+     NDEFAVG == 105120
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -374,7 +374,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 
       DSTART =  0.0d0                   ! days
   TIDE_START =  0.0d0                   ! days
-    TIME_REF =  0                       ! yyyymmdd.dd
+    TIME_REF =  20070101                ! yyyymmdd.dd
 
 ! Nudging/relaxation time scales, inverse scales will be computed
 ! internally, [1:Ngrids].
@@ -774,7 +774,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! Input NetCDF file names, [1:Ngrids].
 
      GRDNAME == /g/data2/gh9/oxr581/waom10_data/waom10_grd.nc
-     ININAME == ocean_rst.nc!/g/data2/gh9/oxr581/waom10_data/waom10_hack.nc!Data/waom10/waom10_ini_large.nc
+     ININAME == /g/data2/gh9/oxr581/waom10_data/waom10_hack.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
