@@ -94,16 +94,16 @@
 
 /*SSH RED POT (Nodal included in tds file)*/
   
+#define UV_TIDES
+#define RAMP_TIDES
 /*
 #define SSH_TIDES
-#define UV_TIDES
 #define FSOBC_REDUCED
 #define ADD_M2OBC
 #define ADD_FSOBC
-*/
 #define POT_TIDES
-#define RAMP_TIDES
 #define TIMELESS_DATA
+*/
 
 /*SSH RED POT NoNodal*/
 /*
