@@ -1,14 +1,14 @@
 #!/bin/bash
-#PBS -P gh9
+#PBS -P m68
 #PBS -q normal
 #PBS -l mem=128gb,walltime=24:00:00,ncpus=256
-#PBS -N base
+#PBS -N UV_spin
 
 #module load intel-fc
 #module load netcdf
 #module load openmpi
 
-cd /short/m68/oxr581/waom10/
+cd /short/m68/oxr581/waom/
 
 #make clean && make -f makefile -j 6
 
