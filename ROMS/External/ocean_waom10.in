@@ -217,9 +217,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Input/Output parameters.
 
-       NRREC == -1
+       NRREC == 0
    LcycleRST == T
-        NRST == 105120!1year
+        NRST == 4320!105120!1year
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,11 +227,11 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 0!8766!1month
+        NHIS == 4320!8766!1month
      NDEFHIS == 0!105192!1year
       NTSAVG == 0!
-        NAVG == 8760
-     NDEFAVG == 105120
+        NAVG == 0!8760
+     NDEFAVG == 0!105120
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -773,8 +773,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/waom10_data/waom10_grd.nc
-     ININAME == /g/data2/gh9/oxr581/waom10_data/waom10_hack.nc
+     GRDNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_grd.nc
+     ININAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_ini2.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -793,7 +793,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == /g/data2/gh9/oxr581/waom10_data/waom10_bry.nc
+     BRYNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -818,9 +818,9 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 3                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/waom10_data/waom10_tds.nc \
-                /g/data2/gh9/oxr581/waom10_data/waom10_sbc.nc \
-                /g/data2/gh9/oxr581/waom10_data/waom10_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
+     FRCNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_tds.nc \
+                /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_sbc.nc \
+                /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
                 
 
 

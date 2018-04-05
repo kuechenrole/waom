@@ -658,7 +658,7 @@
   'swf_time'
   'idsfwf'
   'r2dvar'
-  -1.157407d-7                                      ! 0.01/86400
+  1.157407d-7                                      ! 0.01/86400
 
 'EminusP'                                          ! Input/Output
   'bulk_flux surface net freswater flux, (E-P)'
