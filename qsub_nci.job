@@ -1,17 +1,17 @@
 #!/bin/bash
 #PBS -P m68
 #PBS -q normal
-#PBS -l mem=128gb,walltime=24:00:00,ncpus=256
-#PBS -N UV_spin
+#PBS -l mem=96gb,walltime=24:00:00,ncpus=256
+#PBS -N spinUp
 
 #module load intel-fc
 #module load netcdf
 #module load openmpi
 
-cd /short/m68/oxr581/waom/
+cd /short/m68/oxr581/waom10_v2.0_small/
 
 #make clean && make -f makefile -j 6
 
-mpiexec oceanM ROMS/External/ocean_waom10.in > ocean.log
+mpiexec oceanM ROMS/External/ocean_waom10_spinUp.in > ocean_spinUp.log
 #for interactive mode from command line run
 #qsub -Pgh8 -qexpress -lwalltime=02:00:00,ncpus=1,mem=16gb -I
