@@ -196,8 +196,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 525600!5 years
-          DT == 300.0d0 
+      NTIMES == 946080!6yearsars
+          DT == 200.0d0 
      NDTFAST == 30
 
 ! Model iteration loops parameters.
@@ -217,9 +217,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Input/Output parameters.
 
-       NRREC == -1
+       NRREC == 0
    LcycleRST == T
-        NRST == 105120!1year
+        NRST == 157680!1year
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -230,8 +230,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
         NHIS == 0!4320!8766!1month
      NDEFHIS == 0!105192!1year
       NTSAVG == 0!
-        NAVG == 8760! every month
-     NDEFAVG == 105120
+        NAVG == 13140!every month
+     NDEFAVG == 157680!0
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
