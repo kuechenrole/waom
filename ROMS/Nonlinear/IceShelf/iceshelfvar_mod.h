@@ -21,6 +21,8 @@
         real(r8), pointer :: gammaT(:,:)
         real(r8), pointer :: gammaS(:,:)
         real(r8), pointer :: Tb(:,:)
+        real(r8), pointer :: Tstar(:,:)
+        real(r8), pointer :: Ustar(:,:)
         real(r8), pointer :: Sb(:,:)
 # endif
         real(r8), pointer :: m(:,:)
@@ -68,6 +70,8 @@
       allocate ( ICESHELFVAR(ng) % gammaT(LBi:UBi,LBj:UBj) )
       allocate ( ICESHELFVAR(ng) % gammaS(LBi:UBi,LBj:UBj) )
       allocate ( ICESHELFVAR(ng) % Tb(LBi:UBi,LBj:UBj) )
+      allocate ( ICESHELFVAR(ng) % Tstar(LBi:UBi,LBj:UBj) )
+      allocate ( ICESHELFVAR(ng) % Ustar(LBi:UBi,LBj:UBj) )
       allocate ( ICESHELFVAR(ng) % Sb(LBi:UBi,LBj:UBj) )
 # endif
       allocate ( ICESHELFVAR(ng) % m(LBi:UBi,LBj:UBj) )
@@ -156,6 +160,8 @@
             ICESHELFVAR(ng) % gammaT(i,j) = IniVal
             ICESHELFVAR(ng) % gammaS(i,j) = IniVal
             ICESHELFVAR(ng) % Tb(i,j) = IniVal
+            ICESHELFVAR(ng) % Tstar(i,j) = IniVal
+            ICESHELFVAR(ng) % Ustar(i,j) = IniVal
             ICESHELFVAR(ng) % Sb(i,j) = IniVal
 # endif
             ICESHELFVAR(ng) % m(i,j) = IniVal

@@ -91,8 +91,8 @@ GridsInLayer =  1
 ! Grid dimension parameters. See notes below in the Glossary for how to set
 ! these parameters correctly.
 
-          Lm == 858            ! Number of I-direction INTERIOR RHO-points
-          Mm == 728           ! Number of J-direction INTERIOR RHO-points
+          Lm == 628            ! Number of I-direction INTERIOR RHO-points
+          Mm == 528           ! Number of J-direction INTERIOR RHO-points
            N == 31            ! Number of vertical levels
 
         Nbed =  0             ! Number of sediment bed layers
@@ -107,7 +107,7 @@ GridsInLayer =  1
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
       NtileI == 16                               ! I-direction partition
-      NtileJ == 16                               ! J-direction partition
+      NtileJ == 8! J-direction partition
 
 ! Set lateral boundary conditions keyword. Notice that a value is expected
 ! for each boundary segment per nested grid for each state variable.
@@ -196,8 +196,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 534240!5 and 1 months!!105192
-          DT == 300.0d0 !1200d0
+      NTIMES == 1129680!7 years and 60 days
+          DT == 200.0d0 !1200d0
      NDTFAST == 30
 
 ! Model iteration loops parameters.
@@ -217,9 +217,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Input/Output parameters.
 
-       NRREC == -1
+       NRREC == 1
    LcycleRST == T
-        NRST == 105120!1year
+        NRST == 0!105120!1year
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,10 +227,10 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 12!1h!8760!1month40
-     NDEFHIS == 105120!1year
-      NTSAVG == 0
-        NAVG == 0
+        NHIS == 18!1h!8760!1month40
+     NDEFHIS == 0!105120!1year
+      NTSAVG == 0!525888!5 years and 1 day
+        NAVG == 0!4320!every 15 days
      NDEFAVG == 0
       NTSDIA == 0
         NDIA == 0  
@@ -360,7 +360,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 
      THETA_S == 4.0d0                      ! surface stretching parameter  !kait: 7.0
      THETA_B == 0.9d0                      ! bottom  stretching parameter  !kait: 2.0
-      TCLINE == 50.0d0                     ! critical depth (m)            !kait: 250.0
+      TCLINE == 20.0d0                     ! critical depth (m)            !kait: 250.0
                                            ! your parameters might belong to Vstretching 2 instead of 4 ... might be worse updating to kaits
 
 ! Mean Density and Brunt-Vaisala frequency.
@@ -372,9 +372,9 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! origin for tidal forcing, and model reference time for output
 ! NetCDF units attribute.
 
-      DSTART =  0.0d0                      ! days
-  TIDE_START =  -3805.0d0                   ! days
-    TIME_REF =  19950101.0d0                      ! yyyymmdd.dd
+      DSTART =  0.0d0                   ! days
+  TIDE_START =  0.0d0                   ! days
+    TIME_REF =  20070101                ! yyyymmdd.dd
 
 ! Nudging/relaxation time scales, inverse scales will be computed
 ! internally, [1:Ngrids].
@@ -489,7 +489,6 @@ SO_sdev(isTvar) == 1.0d0 1.0d0             ! NT tracers
 
 SO_sdev(isUstr) == 1.0d0                   ! surface U-stress
 SO_sdev(isVstr) == 1.0d0                   ! surface V-stress
-SO_sdev(isTsur) == 1.0d0 1.0d0             ! NT surface tracers flux
 
 ! Logical switches (TRUE/FALSE) to activate writing of fields into
 ! HISTORY output file.
@@ -578,10 +577,10 @@ Hout(idMtls) == F       ! gls                turbulent length scale
 
 Hout(idDraft) == F      ! draft              time-dependent iceshelf draft
 Hout(idismr) == T       ! ismr               ice-shelf melt rate
+Hout(idisUstar) == T       ! isUstar               ice-shelf melt rate
+Hout(idisTstar) == T       ! isTstar               ice-shelf melt rate
 Hout(idisTb) == F       ! isTb               temperature at ice-shelf base
 Hout(idisSb) == F       ! isSb               salinity at ice-shelf base
-Hout(idisTstar) == T       ! Tstar             ice-shelf melt rate temperature driving
-Hout(idisUstar) == T       ! Ustar             ice-shelf melt rate friction velocity
 
 ! Logical switches (TRUE/FALSE) to activate writing of extra inert passive
 ! tracers other than biological and sediment tracers. An inert passive tracer
@@ -621,11 +620,11 @@ Hout(idBott) == F F F F F F F F F F F F F F F F
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged
 ! fields into AVERAGE output file.
 
-Aout(idUvel) == T       ! u                  3D U-velocity
-Aout(idVvel) == T       ! v                  3D V-velocity
+Aout(idUvel) == F       ! u                  3D U-velocity
+Aout(idVvel) == F       ! v                  3D V-velocity
 Aout(idu3dE) == F       ! u_eastward         3D U-eastward  at RHO-points
 Aout(idv3dN) == F       ! v_northward        3D V-northward at RHO-points
-Aout(idWvel) == T       ! w                  3D W-velocity
+Aout(idWvel) == F       ! w                  3D W-velocity
 Aout(idOvel) == F       ! omega              omega vertical velocity
 Aout(idUbar) == T       ! ubar               2D U-velocity
 Aout(idVbar) == T       ! vbar               2D V-velocity
@@ -635,8 +634,8 @@ Aout(idFsur) == T       ! zeta               free-surface
 
 Aout(idTvar) == T T     ! temp, salt         temperature and salinity
 
-Aout(idUsms) == T       ! sustr              surface U-stress
-Aout(idVsms) == T       ! svstr              surface V-stress
+Aout(idUsms) == F       ! sustr              surface U-stress
+Aout(idVsms) == F       ! svstr              surface V-stress
 Aout(idUbms) == F       ! bustr              bottom U-stress
 Aout(idVbms) == F       ! bvstr              bottom V-stress
 
@@ -712,7 +711,7 @@ Aout(iHVTav) == F F     ! Hvom_temp, ...     tracer volume flux, <Hvom*t>
 
 ! ICESHELF specfic OPTIONS:
 
-Aout(idismr) == F       ! ismr               ice-shelf melt rate
+Aout(idismr) == T       ! ismr               ice-shelf melt rate
 
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged,
 ! 2D momentum (ubar,vbar) diagnostic terms into DIAGNOSTIC output file.
@@ -775,8 +774,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/waom10_data/waom10_grd.nc
-     ININAME == ocean_rst.nc!/g/data2/gh9/oxr581/waom10_data/waom10_hack.nc!Data/waom10/waom10_ini_large.nc
+     GRDNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_grd.nc
+     ININAME == ../waom10_v2.0_small/ocean_rst.nc!/g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_ini.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -795,7 +794,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == /g/data2/gh9/oxr581/waom10_data/waom10_bry.nc
+     BRYNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -820,9 +819,9 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 3                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/waom10_data/waom10_tds.nc \
-                /g/data2/gh9/oxr581/waom10_data/waom10_sbc.nc \
-                /g/data2/gh9/oxr581/waom10_data/waom10_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
+     FRCNAME == /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_tds.nc \
+                /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_sbc.nc \
+                /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
                 
 
 

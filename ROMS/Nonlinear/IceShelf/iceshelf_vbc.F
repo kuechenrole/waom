@@ -142,7 +142,7 @@
      &                         u, v, t,                                 &
 #ifdef ICESHELF_3EQN_VBC
      &                         gammaT, gammaS,                          &
-     &                         Tb,Tstar,Ustar, Sb,                      &
+     &                         Tb, Tstar, Ustar, Sb,                    &
 #endif 
      &                         m, rho,                                  &
      &                         sustr, svstr,                            &
@@ -252,7 +252,7 @@
       real(r8) :: Pradj,Scadj, Cdrt, cp_i
 !      real(r8) :: a,b,c,Pr,Sc,Cd,small
 !      real(r8) :: cp_w,ustar,visc,turb,TFb,rho_i
-      real(r8) :: Sm,Tm,rhoi_on_rho0,ustar,TFb,turb
+      real(r8) :: Sm,Tm,rhoi_on_rho0,TFb,turb
 #ifdef ICESHELF_VBC_HFPROPTOM
       real(r8) :: Ex1,Ex2,Ex3,Ex4,Ex5,Ex6,Ep1,Ep2,Ep3,Ep31,Ep4,Ep5
       real(r8) :: Sr1,Sr2,Sf1,Sf2,Tf1,Tf2,rho_r
@@ -505,27 +505,28 @@
 # endif
 
 !    Calculate exchange coefficients. Note that this assumes log profile 
-            ustar = SQRT(SQRT((0.5_r8*(sustr(i,j)+sustr(i+1,j)))**2+    &
+            ustar(i,j) = SQRT(SQRT((0.5_r8*                             &
+     &                         (sustr(i,j)+sustr(i+1,j)))**2+           &
      &                        (0.5_r8*(svstr(i,j)+svstr(i,j+1)))**2))
 #    ifdef MASKING
-            ustar = ustar*rmask(i,j)
+            ustar(i,j) = ustar(i,j)*rmask(i,j)
 #    endif
-           if(ustar.lt.small) ustar = small
-            Ustar(i,j) = ustar
+           if(ustar(i,j).lt.small) ustar(i,j) = small
 #    ifdef GAMMAS_KY1972
-            turb = 2.12_r8*LOG((ustar*Hz(i,j,N(ng)))/visc)
-            gammaT(i,j) = ustar/(turb + Pradj - 9.0_r8)
-            gammaS(i,j) = ustar/(turb + Scadj - 9.0_r8)
+            turb = 2.12_r8*LOG((ustar(i,j)*Hz(i,j,N(ng)))/visc)
+            gammaT(i,j) = ustar(i,j)/(turb + Pradj - 9.0_r8)
+            gammaS(i,j) = ustar(i,j)/(turb + Scadj - 9.0_r8)
 #    elif defined GAMMAS_Mc1987
 ! Uses simplified version of McPhee 1987
-            IF (ustar.gt.small.and.ABS(f(i,j)).gt.1.0E-8) THEN
-          turb = 2.5_r8*LOG(5300.0_r8*ustar*ustar/ABS(f(i,j))) + 7.12_r8  
+            IF (ustar(i,j).gt.small.and.ABS(f(i,j)).gt.1.0E-8) THEN
+          turb = 2.5_r8*LOG(5300.0_r8*ustar(i,j)*ustar(i,j)/ABS(f(i,j)))&
+     &           + 7.12_r8  
             ELSE
               turb = 0.0_r8
             END IF
 
-            gammaT(i,j) = ustar/(turb + Pradj - 6.0_r8)
-            gammaS(i,j) = ustar/(turb + Scadj - 6.0_r8)
+            gammaT(i,j) = ustar(i,j)/(turb + Pradj - 6.0_r8)
+            gammaS(i,j) = ustar(i,j)/(turb + Scadj - 6.0_r8)
 #    else
             gammaT(i,j) = 1.00e-4_r8
             gammaS(i,j) = 5.05e-7_r8
