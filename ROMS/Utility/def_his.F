@@ -483,6 +483,38 @@
           IF (exit_flag.ne.NoError) RETURN
         END IF
 !
+!  Define temperature driving force at the base of the ice shelf.
+!
+        IF (Hout(idisTstar,ng)) THEN
+          Vinfo( 1)=Vname(1,idisTstar)
+          Vinfo( 2)=Vname(2,idisTstar)
+          Vinfo( 3)=Vname(3,idisTstar)
+          Vinfo(14)=Vname(4,idisTstar)
+          Vinfo(16)=Vname(1,idisTstar)
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idisTstar,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idisTstar),   &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
+     &                   SetFillVal = .FALSE.)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+!
+!  Define friction velocity at the base of the ice shelf.
+!
+        IF (Hout(idisUstar,ng)) THEN
+          Vinfo( 1)=Vname(1,idisUstar)
+          Vinfo( 2)=Vname(2,idisUstar)
+          Vinfo( 3)=Vname(3,idisUstar)
+          Vinfo(14)=Vname(4,idisUstar)
+          Vinfo(16)=Vname(1,idisUstar)
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idisUstar,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idisUstar),   &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
+     &                   SetFillVal = .FALSE.)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+!
 !  Define salinity at the base of the ice shelf.
 !
         IF (Hout(idisSb,ng)) THEN

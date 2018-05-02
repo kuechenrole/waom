@@ -1257,8 +1257,22 @@
                 RETURN
               END IF
               Npts=load_l(Nval, Cval, Ngrids, Hout(idisTb,:))
+            CASE ('Hout(idisTstar)')
+              IF (idisTstar.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idisTstar'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idisTstar,:))
+            CASE ('Hout(idisUstar)')
+              IF (idisUstar.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idisUstar'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idisUstar,:))
             CASE ('Hout(idisSb)')
-              IF (idisTb.eq.0) THEN
+              IF (idisSb.eq.0) THEN
                 IF (Master) WRITE (out,280) 'idisSb'
                 exit_flag=5
                 RETURN
@@ -3971,6 +3985,12 @@
           IF (Hout(idisTb,ng)) WRITE (out,170) Hout(idisTb,ng),         &
      &       'Hout(idisTb)',                                            &
      &       'Write out temperature at base of ice shelf.'
+          IF (Hout(idisTstar,ng)) WRITE (out,170) Hout(idisTstar,ng),         &
+     &       'Hout(idisTstar)',                                            &
+     &       'Write out temperature driving force at base of ice shelf.'
+          IF (Hout(idisUstar,ng)) WRITE (out,170) Hout(idisUstar,ng),         &
+     &       'Hout(idisUstar)',                                            &
+     &       'Write out Friction velocity at base of ice shelf.'
           IF (Hout(idisSb,ng)) WRITE (out,170) Hout(idisSb,ng),         &
      &       'Hout(idisSb)',                                            &
      &       'Write out temperature at base of ice shelf.'

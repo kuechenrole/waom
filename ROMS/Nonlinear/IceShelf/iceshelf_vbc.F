@@ -101,6 +101,8 @@
      &                   ICESHELFVAR(ng) % gammaT,                      &
      &                   ICESHELFVAR(ng) % gammaS,                      &
      &                   ICESHELFVAR(ng) % Tb,                          &
+     &                   ICESHELFVAR(ng) % Tstar,                       &
+     &                   ICESHELFVAR(ng) % Ustar,                       &
      &                   ICESHELFVAR(ng) % Sb,                          &
 #endif
      &                   ICESHELFVAR(ng) % m,                           &
@@ -140,7 +142,7 @@
      &                         u, v, t,                                 &
 #ifdef ICESHELF_3EQN_VBC
      &                         gammaT, gammaS,                          &
-     &                         Tb, Sb,                                  &
+     &                         Tb,Tstar,Ustar, Sb,                      &
 #endif 
      &                         m, rho,                                  &
      &                         sustr, svstr,                            &
@@ -196,6 +198,8 @@
       real(r8), intent(out) :: gammaT(LBi:,LBj:)
       real(r8), intent(out) :: gammaS(LBi:,LBj:)
       real(r8), intent(out) :: Tb(LBi:,LBj:)
+      real(r8), intent(out) :: Tstar(LBi:,LBj:)
+      real(r8), intent(out) :: Ustar(LBi:,LBj:)
       real(r8), intent(out) :: Sb(LBi:,LBj:)
 #endif
       real(r8), intent(out) :: m(LBi:,LBj:)
@@ -230,6 +234,8 @@
       real(r8), intent(out) :: gammaT(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: gammaS(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: Tb(LBi:UBi,LBj:UBj)
+      real(r8), intent(out) :: Tstar(LBi:UBi,LBj:UBj)
+      real(r8), intent(out) :: Ustar(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: Sb(LBi:UBi,LBj:UBj)
 #endif
       real(r8), intent(out) :: m(LBi:UBi,LBj:UBj)
@@ -505,6 +511,7 @@
             ustar = ustar*rmask(i,j)
 #    endif
            if(ustar.lt.small) ustar = small
+            Ustar(i,j) = ustar
 #    ifdef GAMMAS_KY1972
             turb = 2.12_r8*LOG((ustar*Hz(i,j,N(ng)))/visc)
             gammaT(i,j) = ustar/(turb + Pradj - 9.0_r8)
@@ -583,6 +590,7 @@
 
 # else
             TFb = a*Sm + b + c*zice(i,j)
+            Tstar(i,j) = Tm - TFb
             mflag= 0.5*(1 + SIGN(1.0_r8,Tm-TFb))
             TFi = (1 - mflag)*a*Si + b + c*zice(i,j)
 

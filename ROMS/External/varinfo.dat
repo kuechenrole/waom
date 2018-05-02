@@ -88,6 +88,24 @@
   'r2dvar'
   1.0d0
 
+'Tstar'                                                ! Output
+  'insitu temperature driving force at ice base'
+  'Celsius'                                            !
+  'temperature_driving_force, scalar, series'
+  'ocean_time'
+  'idisTstar'
+  'r2dvar'
+  1.0d0
+
+'Ustar'                                                ! Output
+  'friction velocity at ice base'
+  'meter second-1'                                 ! [m/s]
+  'friction_velocity, scalar, series'
+  'ocean_time'
+  'idisUstar'
+  'r2dvar'
+  1.0d0
+
 'Tb'                                                ! Output
   'temperature at ice-shelf base'
   'Celcius'                                         ! [Celcius]

@@ -580,6 +580,8 @@ Hout(idDraft) == F      ! draft              time-dependent iceshelf draft
 Hout(idismr) == T       ! ismr               ice-shelf melt rate
 Hout(idisTb) == F       ! isTb               temperature at ice-shelf base
 Hout(idisSb) == F       ! isSb               salinity at ice-shelf base
+Hout(idisTstar) == T       ! Tstar             ice-shelf melt rate temperature driving
+Hout(idisUstar) == T       ! Ustar             ice-shelf melt rate friction velocity
 
 ! Logical switches (TRUE/FALSE) to activate writing of extra inert passive
 ! tracers other than biological and sediment tracers. An inert passive tracer
