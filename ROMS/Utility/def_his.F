@@ -2502,6 +2502,23 @@
           IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idtime))) THEN
             got_var(idtime)=.TRUE.
             HIS(ng)%Vid(idtime)=var_id(i)
+#if defined ICESHELF
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
+            got_var(idismr)=.TRUE.
+            HIS(ng)%Vid(idismr)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisTstar))) THEN
+            got_var(idisTstar)=.TRUE.
+            HIS(ng)%Vid(idisTstar)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisUstar))) THEN
+            got_var(idisUstar)=.TRUE.
+            HIS(ng)%Vid(idisUstar)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisTb))) THEN
+            got_var(idisTb)=.TRUE.
+            HIS(ng)%Vid(idisTb)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisSb))) THEN
+            got_var(idisSb)=.TRUE.
+            HIS(ng)%Vid(idisSb)=var_id(i)
+#endif
 #if defined SEDIMENT && defined SED_MORPH
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idbath))) THEN
             got_var(idbath)=.TRUE.

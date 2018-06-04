@@ -1,0 +1,52 @@
+#!/bin/bash
+#PBS -P gi0
+#PBS -q normal
+#PBS -l mem=96gb,walltime=20:00:00,ncpus=256
+#PBS -l wd
+#PBS -m a
+#PBS -N hre10_long
+
+cd /short/m68/oxr581/hre10/
+
+logname=$(date +%Y%m%d%H%M%S)
+
+mpiexec oceanM ROMS/External/ocean_waom10.in > ocean.log.$logname
+
+find *.nc -user oxr581 -group m68 -exec chgrp -ch gh9 {} \;
+
+# Check for blowup
+grep -iE 'error:|Abnormal|blow|blowup' ocean.log.$logname | wc -l > blowupstatus #output_error
+error=`cat blowupstatus`
+if [ $error -eq "0" ]; then
+  #setenv run_number_new
+  #setenv run_number_old
+  run_number=`cat qsub.number`
+  # Change .in to accept restarts:
+  if [ $run_number -eq "1" ]; then
+    sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom10.in
+    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom10_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom10.in
+  fi
+  ## # Make high resolution output:
+  ## if [ $run_number -eq "4" ]; then
+  ##   sed -i 's/NHIS == 43680/NHIS == 180/' /short/m68/deg581/tisom011/ROMS/External/ocean_tisom.in
+  ##   sed -i 's/NDEFHIS == 524160/NDEFHIS == 21915/' /short/m68/deg581/tisom011/ROMS/External/ocean_tisom.in
+  ## fi
+  if [ $((($run_number+1)%1)) -eq "0" ]; then
+    cp ocean_rst.nc ocean_rst_$run_number.nc
+  fi
+  echo "resubmitting next job"
+  # resubmit job
+  if [ $run_number -lt "7" ]; then
+    run_number_old=$[$run_number * 525600] 
+    run_number_new=$[$run_number_old + 525600]    # 5 years more
+    sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom10.in
+    run_number=$[$run_number + 1]
+    echo $run_number > qsub.number
+    qsub qsub_nci.longjob
+  else
+    echo "not resubmitting as reached max qsub.number"
+  fi
+else
+  echo "not resubmitting as blowupstatus is $error"
+fi
+exit
