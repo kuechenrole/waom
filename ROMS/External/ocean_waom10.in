@@ -196,7 +196,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 1051200!10years
+      NTIMES == 525600
           DT == 300.0d0 
      NDTFAST == 30
 
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == 0
    LcycleRST == T
-        NRST == 105120!1year
+        NRST == 525600
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -228,7 +228,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
      LDEFOUT == T
         NHIS == 52560!6 month
-     NDEFHIS == 0!105192!1year
+     NDEFHIS == 525600!5year
       NTSAVG == 0!
         NAVG == 8760!1month
      NDEFAVG == 105120
@@ -261,7 +261,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model
 ! and adjoint-based algorithms: [1:NAT+NPT,Ngrids].
 
-        TNU2 ==  0.0d0  0.0d0                   ! m2/s  may has to change with resolution
+        TNU2 ==  50.0d0  50.0d0                   ! m2/s  may has to change with resolution
         TNU4 ==  0.0d0  0.0d0                   ! m4/s
 
      ad_TNU2 == 0.0d0  0.0d0                    ! m2/s
@@ -561,13 +561,13 @@ Hout(idLhea) == F       ! latent             latent heat flux
 Hout(idShea) == F       ! sensible           sensible heat flux
 Hout(idLrad) == F       ! lwrad              longwave radiation flux
 Hout(idSrad) == F       ! swrad              shortwave radiation flux
-Hout(idEmPf) == T       ! EminusP            E-P flux
+Hout(idEmPf) == F       ! EminusP            E-P flux
 Hout(idevap) == F       ! evaporation        evaporation rate
 Hout(idrain) == F       ! rain               precipitation rate
 
-Hout(idDano) == T       ! rho                density anomaly
-Hout(idVvis) == T       ! AKv                vertical viscosity
-Hout(idTdif) == T       ! AKt                vertical T-diffusion
+Hout(idDano) == F       ! rho                density anomaly
+Hout(idVvis) == F       ! AKv                vertical viscosity
+Hout(idTdif) == F       ! AKt                vertical T-diffusion
 Hout(idSdif) == F       ! AKs                vertical Salinity diffusion
 Hout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
 Hout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
@@ -668,7 +668,7 @@ Aout(idSrad) == F       ! swrad              shortwave radiation flux
 Aout(idevap) == F       ! evaporation        evaporation rate
 Aout(idrain) == F       ! rain               precipitation rate
 
-Aout(idDano) == T       ! rho                density anomaly
+Aout(idDano) == F       ! rho                density anomaly
 Aout(idVvis) == F       ! AKv                vertical viscosity
 Aout(idTdif) == F       ! AKt                vertical T-diffusion
 Aout(idSdif) == F       ! AKs                vertical Salinity diffusion
