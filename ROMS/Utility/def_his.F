@@ -449,6 +449,39 @@
      &                 SetParAccess = .FALSE.)
         IF (exit_flag.ne.NoError) RETURN
 #endif
+#if defined SURFACE_OVERFLUX_FIX
+!
+!  Define ice shelf basal melt rate.
+!
+        IF (Hout(idssflxSOF,ng)) THEN
+          Vinfo( 1)=Vname(1,idssflxSOF)
+          Vinfo( 2)=Vname(2,idssflxSOF)
+          Vinfo( 3)=Vname(3,idssflxSOF)
+          Vinfo(14)=Vname(4,idssflxSOF)
+          Vinfo(16)=Vname(1,idssflxSOF)
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idssflxSOF,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid,                        &
+     &                   HIS(ng)%Vid(idssflxSOF),                       &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
+     &                   SetFillVal = .FALSE.)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+        IF (Hout(idshflxSOF,ng)) THEN
+          Vinfo( 1)=Vname(1,idshflxSOF)
+          Vinfo( 2)=Vname(2,idshflxSOF)
+          Vinfo( 3)=Vname(3,idshflxSOF)
+          Vinfo(14)=Vname(4,idshflxSOF)
+          Vinfo(16)=Vname(1,idshflxSOF)
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idshflxSOF,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid,                        &
+     &                    HIS(ng)%Vid(idshflxSOF),                      &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
+     &                   SetFillVal = .FALSE.)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+#endif
 #if defined ICESHELF
 !
 !  Define ice shelf basal melt rate.
@@ -2502,6 +2535,14 @@
           IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idtime))) THEN
             got_var(idtime)=.TRUE.
             HIS(ng)%Vid(idtime)=var_id(i)
+#if defined SURFACE_OVERFLUX_FIX
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
+            got_var(idssflxSOF)=.TRUE.
+            HIS(ng)%Vid(idssflxSOF)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idshflxSOF))) THEN
+            got_var(idshflxSOF)=.TRUE.
+            HIS(ng)%Vid(idshflxSOF)=var_id(i)
+#endif
 #if defined ICESHELF
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
             got_var(idismr)=.TRUE.

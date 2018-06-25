@@ -106,6 +106,10 @@
      &                   ICESHELFVAR(ng) % Sb,                          &
 #endif
      &                   ICESHELFVAR(ng) % m,                           &
+#ifdef SURFACE_OVERFLUX_FIX
+     &                   ICESHELFVAR(ng) % ssflxSOF,                    &
+     &                   ICESHELFVAR(ng) % shflxSOF,                    &
+#endif
      &                   OCEAN(ng) % rho,                               &
      &                   FORCES(ng) % sustr,                            &
      &                   FORCES(ng) % svstr,                            &
@@ -144,7 +148,12 @@
      &                         gammaT, gammaS,                          &
      &                         Tb, Tstar, Ustar, Sb,                    &
 #endif 
-     &                         m, rho,                                  &
+     &                         m,                                       &
+#ifdef SURFACE_OVERFLUX_FIX
+     &                         ssflxSOF,                                &
+     &                         shflxSOF,                                &
+#endif
+     &                         rho,                                     &
      &                         sustr, svstr,                            &
 #   ifdef SHORTWAVE
      &                         srflx,                                   &
@@ -203,6 +212,10 @@
       real(r8), intent(out) :: Sb(LBi:,LBj:)
 #endif
       real(r8), intent(out) :: m(LBi:,LBj:)
+#ifdef SURFACE_OVERFLUX_FIX
+      real(r8), intent(out) :: ssflxSOF(LBi:UBi,LBj:UBj)
+      real(r8), intent(out) :: shflxSOF(LBi:UBi,LBj:UBj)
+#endif
 # ifdef SHORTWAVE
       real(r8), intent(inout) :: srflx(LBi:,LBj:)
 # endif
@@ -267,7 +280,7 @@
       real(r8) :: ct
 #endif
 #ifdef SURFACE_OVERFLUX_FIX
-      real(r8) :: Salt_insitu, Temp_insitu, Tf
+      real(r8) :: Salt_insitu, Temp_insitu, Tf, shflx_old
 #endif
 #  if (!defined BBL_MODEL) && defined UV_LOGDRAG
       real(r8), dimension(PRIVATE_2D_SCRATCH_ARRAY) :: wrk
@@ -625,11 +638,14 @@
             Tf = a*Salt_insitu+b
 ! Winter correction -- release salt when getting close to Tf
             IF(stflx(i,j,itemp).lt.0.0_r8.and.Temp_insitu.gt.(Tf+0.1_r8)) THEN
+               ssflxSOF(i,j)=stflx(i,j,isalt)
                stflx(i,j,isalt)=0.0_r8
 ! Ben's code: If temperature below Tf and heat flux < 0 relax
 ! temperature a Tf
             ELSE IF(stflx(i,j,itemp).lt.0.0_r8.and.Temp_insitu.lt.Tf) THEN
+               shflx_old = stflx(i,j,itemp)
                stflx(i,j,itemp)=Hz(i,j,N(ng))*(Tf-Temp_insitu)/trelax
+               shflxSOF(i,j) = stflx(i,j,itemp) - shflx_old
 !         ELSE IF(stflx(i,j,itemp).gt.0.0_r8.and.Temp_insitu.gt.0.0_r8)
 !         THEN
 ! summer condition: decrease input of heat from the surface forcing

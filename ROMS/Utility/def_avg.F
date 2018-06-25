@@ -494,6 +494,43 @@
         END IF
 # endif
 
+# ifdef SURFACE_OVERFLUX_FIX
+!
+!  Define ice shelf melt rate.
+!
+        IF (Aout(idssflxSOF,ng)) THEN
+          Vinfo( 1)=Vname(1,idssflxSOF)
+          WRITE (Vinfo( 2),'(a,1x,a)') Prefix, TRIM(Vname(2,idssflxSOF))
+          Vinfo( 3)=Vname(3,idssflxSOF)
+          Vinfo(14)=Vname(4,idssflxSOF)
+          Vinfo(16)=Vname(1,idtime)
+#  if !defined WET_DRY && (defined WRITE_WATER && defined MASKING)
+          Vinfo(20)='mask_rho'
+#  endif
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idssflxSOF,ng),r8)
+          status=def_var(ng, model, AVG(ng)%ncid,                      &
+     &                                       AVG(ng)%Vid(idssflxSOF),  &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+        IF (Aout(idshflxSOF,ng)) THEN
+          Vinfo( 1)=Vname(1,idshflxSOF)
+          WRITE (Vinfo( 2),'(a,1x,a)') Prefix, TRIM(Vname(2,idshflxSOF))
+          Vinfo( 3)=Vname(3,idshflxSOF)
+          Vinfo(14)=Vname(4,idshflxSOF)
+          Vinfo(16)=Vname(1,idtime)
+#  if !defined WET_DRY && (defined WRITE_WATER && defined MASKING)
+          Vinfo(20)='mask_rho'
+#  endif
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idshflxSOF,ng),r8)
+          status=def_var(ng, model, AVG(ng)%ncid,                      &
+     &                                       AVG(ng)%Vid(idshflxSOF),  &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+# endif
 !
 !  Define 2D momentum in the XI-direction.
 !
@@ -2004,9 +2041,17 @@
             got_var(idFsur)=.TRUE.
             AVG(ng)%Vid(idFsur)=var_id(i)
 # ifdef ICESHELF
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
-            got_var(idismr)=.TRUE.
-            AVG(ng)%Vid(idismr)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
+            got_var(idssflxSOF)=.TRUE.
+            AVG(ng)%Vid(idssflxSOF)=var_id(i)
+# endif
+# ifdef SURFACE_OVERFLUX_FIX
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
+            got_var(idssflxSOF)=.TRUE.
+            AVG(ng)%Vid(idssflxSOF)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idshflxSOF))) THEN
+            got_var(idshflxSOF)=.TRUE.
+            AVG(ng)%Vid(idshflxSOF)=var_id(i)
 # endif
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idUbar))) THEN
             got_var(idUbar)=.TRUE.
@@ -2318,6 +2363,20 @@
           exit_flag=3
           RETURN
         END IF
+# ifdef SURFACE_OVERFLUX_FIX
+        IF (.not.got_var(idssflxSOF).and.Aout(idssflxSOF,ng)) THEN
+          IF (Master) WRITE (stdout,60) TRIM(Vname(1,idssflxSOF)),          &
+     &                                  TRIM(ncname)
+          exit_flag=3
+          RETURN
+        END IF
+        IF (.not.got_var(idshflxSOF).and.Aout(idshflxSOF,ng)) THEN
+          IF (Master) WRITE (stdout,60) TRIM(Vname(1,idshflxSOF)),          &
+     &                                  TRIM(ncname)
+          exit_flag=3
+          RETURN
+        END IF
+# endif
 # ifdef ICESHELF
         IF (.not.got_var(idismr).and.Aout(idismr,ng)) THEN
           IF (Master) WRITE (stdout,60) TRIM(Vname(1,idismr)),          &

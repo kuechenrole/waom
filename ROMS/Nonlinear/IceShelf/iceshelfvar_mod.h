@@ -26,6 +26,10 @@
         real(r8), pointer :: Sb(:,:)
 # endif
         real(r8), pointer :: m(:,:)
+# if defined SURFACE_OVERFLUX_FIX
+        real(r8), pointer :: ssflxSOF(:,:)
+        real(r8), pointer :: shflxSOF(:,:)
+# endif
 # if defined ICESHELF_MORPH
         real(r8), pointer :: iceshelf_draft0(:,:)
         real(r8), pointer :: iceshelf_draft(:,:,:)
@@ -75,6 +79,10 @@
       allocate ( ICESHELFVAR(ng) % Sb(LBi:UBi,LBj:UBj) )
 # endif
       allocate ( ICESHELFVAR(ng) % m(LBi:UBi,LBj:UBj) )
+# ifdef SURFACE_OVERFLUX_FIX
+      allocate ( ICESHELFVAR(ng) % ssflxSOF(LBi:UBi,LBj:UBj) )
+      allocate ( ICESHELFVAR(ng) % shflxSOF(LBi:UBi,LBj:UBj) )
+# endif
 # if defined ICESHELF_MORPH
       allocate ( ICESHELFVAR(ng) % iceshelf_draft0(LBi:UBi,LBj:UBj) )
       allocate ( ICESHELFVAR(ng) % iceshelf_draft(LBi:UBi,LBj:UBj,1:2) )
@@ -165,6 +173,10 @@
             ICESHELFVAR(ng) % Sb(i,j) = IniVal
 # endif
             ICESHELFVAR(ng) % m(i,j) = IniVal
+# ifdef SURFACE_OVERFLUX_FIX
+            ICESHELFVAR(ng) % ssflxSOF(i,j) = IniVal
+            ICESHELFVAR(ng) % shflxSOF(i,j) = IniVal
+# endif
 # if defined ICESHELF_MORPH
             ICESHELFVAR(ng) % iceshelf_draft0(i,j) = IniVal
             ICESHELFVAR(ng) % iceshelf_draft(i,j,1) = IniVal

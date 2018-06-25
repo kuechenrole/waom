@@ -669,6 +669,24 @@
   'r2dvar'
   1.0d0
 
+'ssfluxSOF'                                        ! Output
+  'surface net salt flux correction due to SOF, (E-P)*SALT'
+  'meter second-1'                                 ! [PSU m/s]
+  'surface net salt flux, scalar, series'
+  'ssf_time'
+  'idssflxSOF'
+  'r2dvar'
+  1.0d0
+
+'shfluxSOF'                                        ! Output
+  'surface net heat flux correction due to SOF'
+  'watt meter-2'                                   ! 
+  'surface heat flux, scalar, series'              ! [Celsius m/s]
+  'shf_time'                                       ! Output: [Watt/m2]
+  'idshflxSOF'
+  'r2dvar'
+  1.0d0
+
 'swflux'                                           ! Input
   'surface net freswater flux, (E-P)'
   'centimeter day-1'                               ! Input:  [m/s]

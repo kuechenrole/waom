@@ -196,9 +196,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 525600
-          DT == 300.0d0 
-     NDTFAST == 30
+      NTIMES == 70080
+          DT == 900.0d0 
+     NDTFAST == 36
 
 ! Model iteration loops parameters.
 
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == 0
    LcycleRST == T
-        NRST == 525600
+        NRST == 0!17520
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,11 +227,11 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 52560!6 month
-     NDEFHIS == 525600!5year
+        NHIS == 96!17520!6 month
+     NDEFHIS == 0!!5year
       NTSAVG == 0!
-        NAVG == 8760!1month
-     NDEFAVG == 105120
+        NAVG == 96!2920!1month
+     NDEFAVG == 0!35040
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -359,7 +359,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! Vertical S-coordinates parameters (see below for details), [1:Ngrids].
 
      THETA_S == 7.0d0                      ! surface stretching parameter  !kait: 7.0
-     THETA_B == 2.0d0                      ! bottom  stretching parameter  !kait: 2.0
+     THETA_B == 4.0d0                      ! bottom  stretching parameter  !kait: 2.0
       TCLINE == 250.0d0                    ! critical depth (m)            !kait: 250.0
                                            ! your parameters might belong to Vstretching 2 instead of 4 ... might be worse updating to kaits
 
@@ -379,7 +379,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! Nudging/relaxation time scales, inverse scales will be computed
 ! internally, [1:Ngrids].
 
-       TNUDG == 3.0d0                      ! days
+       TNUDG == 365.0d0                      ! days
        ZNUDG == 3.0d0                      ! days
       M2NUDG == 3.0d0                      ! days
       M3NUDG == 3.0d0                      ! days
@@ -388,7 +388,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! conditions, [1:Ngrids]. If OBCFAC > 1, nudging on inflow is stronger
 ! than on outflow (recommended).
 
-      OBCFAC == 3.0d0                      ! nondimensional
+      OBCFAC == 356.0d0                      ! nondimensional
 
 ! Linear equation of State parameters:
 
@@ -578,6 +578,8 @@ Hout(idMtls) == F       ! gls                turbulent length scale
 
 Hout(idDraft) == F      ! draft              time-dependent iceshelf draft
 Hout(idismr) == T       ! ismr               ice-shelf melt rate
+Hout(idssflxSOF) == T   ! ssflxSOF           surface salt flux correction due to SOF
+Hout(idshflxSOF) == T   ! shflxSOF           surface heat flux correction due to SOF
 Hout(idisTb) == F       ! isTb               temperature at ice-shelf base
 Hout(idisSb) == F       ! isSb               salinity at ice-shelf base
 
@@ -711,6 +713,8 @@ Aout(iHVTav) == F F     ! Hvom_temp, ...     tracer volume flux, <Hvom*t>
 ! ICESHELF specfic OPTIONS:
 
 Aout(idismr) == T       ! ismr               ice-shelf melt rate
+Aout(idssflxSOF) == T   ! ssflxSOF           surface salt flux correction due to SOF
+Aout(idshflxSOF) == T   ! shflxSOF           surface heat flux correction due to SOF
 
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged,
 ! 2D momentum (ubar,vbar) diagnostic terms into DIAGNOSTIC output file.
@@ -773,8 +777,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/hr_exp/waom10_grd.nc
-     ININAME == /g/data2/gh9/oxr581/hr_exp/waom10_ini.nc
+     GRDNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_grd.nc
+     ININAME == ../hre10_stable/ocean_his_nudg.nc!/g/data2/gh9/oxr581/hr_exp/waom10_ini.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -818,9 +822,9 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 3                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/hr_exp/waom10_tds.nc \
+     FRCNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_tds.nc \
                 /g/data2/gh9/oxr581/hr_exp/waom10_sbc.nc \
-                /g/data2/gh9/oxr581/hr_exp/waom10_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
+                /g/data2/gh9/oxr581/hr_exp/waom10_stable_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
                 
 
 

@@ -23,6 +23,10 @@
 !  avgu2dE    2D Eastward  component (m/s) at RHO-points.              !
 !  avgv2dN    2D Northward component (m/s) at RHO-points.              !
 !  avgzeta    Free surface (m).                                        !
+# ifdef SURFACE_OVERFLUX_FIX
+!  avgssflxSOF    Ice shelf melt rate (m/s).
+!  avgshflxSOF    Ice shelf melt rate (m/s).
+# endif
 # ifdef ICESHELF
 !  avgismr    Ice shelf melt rate (m/s).
 # endif
@@ -148,6 +152,10 @@
 !  Time-averaged state variables.
 !
           real(r8), pointer :: avgzeta(:,:)
+# ifdef SURFACE_OVERFLUX_FIX
+          real(r8), pointer :: avgssflxSOF(:,:)
+          real(r8), pointer :: avgshflxSOF(:,:)
+# endif
 # ifdef ICESHELF
           real(r8), pointer :: avgismr(:,:)
 # endif
@@ -323,6 +331,14 @@
         allocate ( AVERAGE(ng) % avgzeta(LBi:UBi,LBj:UBj) )
       END IF
 
+# ifdef SURFACE_OVERFLUX_FIX
+      IF (Aout(idssflxSOF,ng)) THEN
+         allocate ( AVERAGE(ng) % avgssflxSOF(LBi:UBi,LBj:UBj) )
+      END IF
+      IF (Aout(idshflxSOF,ng)) THEN
+         allocate ( AVERAGE(ng) % avgshflxSOF(LBi:UBi,LBj:UBj) )
+      END IF
+# endif
 # ifdef ICESHELF
       IF (Aout(idismr,ng)) THEN
          allocate ( AVERAGE(ng) % avgismr(LBi:UBi,LBj:UBj) )
@@ -683,6 +699,22 @@
         END DO
       END IF
 
+# ifdef SURFACE_OVERFLUX_FIX
+      IF (Aout(idssflxSOF,ng)) THEN
+        DO j=Jmin,Jmax
+          DO i=Imin,Imax
+            AVERAGE(ng) % avgssflxSOF(i,j) = IniVal
+          END DO
+        END DO
+      END IF
+      IF (Aout(idshflxSOF,ng)) THEN
+        DO j=Jmin,Jmax
+          DO i=Imin,Imax
+            AVERAGE(ng) % avgshflxSOF(i,j) = IniVal
+          END DO
+        END DO
+      END IF
+# endif
 # ifdef ICESHELF
       IF (Aout(idismr,ng)) THEN
         DO j=Jmin,Jmax

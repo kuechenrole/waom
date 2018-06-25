@@ -169,6 +169,8 @@
 !
         integer  :: idAice        ! fraction of cell covered by ice
         integer  :: idismr        ! iceshelf melt rate
+        integer  :: idshflxSOF        ! iceshelf melt rate
+        integer  :: idssflxSOF        ! iceshelf melt rate
         integer  :: iddraft       ! iceshelf draft
         integer  :: idbath        ! bathymetry
         integer  :: idisTb        ! Temperature at base of the ice shelf
@@ -913,6 +915,10 @@
               idtime=varid
             CASE ('idismr')
               idismr=varid
+            CASE ('idssflxSOF')
+              idssflxSOF=varid
+            CASE ('idshflxSOF')
+              idshflxSOF=varid
             CASE ('iddraft')
               iddraft=varid
             CASE ('idbath')

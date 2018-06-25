@@ -1242,6 +1242,22 @@
                 RETURN
               END IF
               Npts=load_l(Nval, Cval, Ngrids, Hout(idFsur,:))
+#if defined SURFACE_OVERFLUX_FIX
+            CASE ('Hout(idssflxSOF)')
+              IF (idssflxSOF.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idssflxSOF'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idssflxSOF,:))
+            CASE ('Hout(idshflxSOF)')
+              IF (idshflxSOF.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idshflxSOF'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idshflxSOF,:))
+#endif
 #if defined ICESHELF
             CASE ('Hout(idismr)')
               IF (idismr.eq.0) THEN
@@ -1796,6 +1812,12 @@
 # if defined ICESHELF
             CASE ('Aout(idismr)')
               Npts=load_l(Nval, Cval, Ngrids, Aout(idismr,:))
+# endif
+# if defined SURFACE_OVERFLUX_FIX
+            CASE ('Aout(idssflxSOF)')
+              Npts=load_l(Nval, Cval, Ngrids, Aout(idssflxSOF,:))
+            CASE ('Aout(idshflxSOF)')
+              Npts=load_l(Nval, Cval, Ngrids, Aout(idshflxSOF,:))
 # endif
             CASE ('Aout(idu2dE)')
               Npts=load_l(Nval, Cval, Ngrids, Aout(idu2dE,:))
@@ -3978,6 +4000,14 @@
           END DO
 # endif
 #endif
+#if defined SURFACE_OVERFLUX_FIX
+          IF (Hout(idssflxSOF,ng)) WRITE (out,170) Hout(idssflxSOF,ng),         &
+     &       'Hout(idssflxSOF)',                                            &
+     &       'Write out ice shelf melt rate.'
+          IF (Hout(idshflxSOF,ng)) WRITE (out,170) Hout(idshflxSOF,ng),         &
+     &       'Hout(idshflxSOF)',                                            &
+     &       'Write out ice shelf melt rate.'
+#endif
 #if defined ICESHELF
           IF (Hout(idismr,ng)) WRITE (out,170) Hout(idismr,ng),         &
      &       'Hout(idismr)',                                            &
@@ -4283,6 +4313,14 @@
 # if defined ICESHELF
           IF (Aout(idismr,ng)) WRITE (out,170) Aout(idismr,ng),         &
      &       'Aout(idismr)',                                            &
+     &       'Write out averaged melt rate.'
+# endif
+# if defined SURFACE_OVERFLUX_FIX
+          IF (Aout(idssflxSOF,ng)) WRITE (out,170) Aout(idssflxSOF,ng),         &
+     &       'Aout(idssflxSOF)',                                            &
+     &       'Write out averaged melt rate.'
+          IF (Aout(idshflxSOF,ng)) WRITE (out,170) Aout(idshflxSOF,ng),         &
+     &       'Aout(idshflxSOF)',                                            &
      &       'Write out averaged melt rate.'
 # endif
           IF (Aout(idUbar,ng)) WRITE (out,170) Aout(idUbar,ng),         &

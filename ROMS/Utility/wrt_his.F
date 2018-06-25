@@ -128,6 +128,50 @@
      &                      ncid = HIS(ng)%ncid,                        &
      &                      varid = HIS(ng)%Vid(idtime))
       IF (exit_flag.ne.NoError) RETURN
+#if defined SURFACE_OVERFLUX_FIX
+        IF (Hout(idssflxSOF,ng)) THEN
+            scale=1.0_r8
+          gtype=gfactor*r2dvar
+          status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                    &
+     &                       HIS(ng)%Vid(idssflxSOF),                   &
+     &                       HIS(ng)%Rindex, gtype,                     &
+     &                       LBi, UBi, LBj, UBj, scale,                 &
+#  ifdef MASKING
+     &                       GRID(ng) % rmask,                          &
+#  endif
+     &                       ICESHELFVAR(ng) % ssflxSOF)
+          IF (status.ne.nf90_noerr) THEN
+            IF (Master) THEN
+              WRITE (stdout,10) TRIM(Vname(1,idssflxSOF)),              &
+     &                               HIS(ng)%Rindex
+            END IF
+            exit_flag=3
+            ioerror=status
+            RETURN
+          END IF
+         END IF
+        IF (Hout(idshflxSOF,ng)) THEN
+            scale=1.0_r8
+          gtype=gfactor*r2dvar
+          status=nf_fwrite2d(ng, iNLM, HIS(ng)%ncid,                    &
+     &                       HIS(ng)%Vid(idshflxSOF),                   &
+     &                       HIS(ng)%Rindex, gtype,                     &
+     &                       LBi, UBi, LBj, UBj, scale,                 &
+#  ifdef MASKING
+     &                       GRID(ng) % rmask,                          &
+#  endif
+     &                       ICESHELFVAR(ng) % shflxSOF)
+          IF (status.ne.nf90_noerr) THEN
+            IF (Master) THEN
+              WRITE (stdout,10) TRIM(Vname(1,idshflxSOF)),              &
+     &                               HIS(ng)%Rindex
+            END IF
+            exit_flag=3
+            ioerror=status
+            RETURN
+          END IF
+         END IF
+#endif
 #if defined ICESHELF 
 ! ADD OTHER TIME dependand variables here: wct, gammas, m, Tb, Ts
         IF (Hout(idismr,ng)) THEN
