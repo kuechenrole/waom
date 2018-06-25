@@ -208,6 +208,10 @@
       real(r8), dimension(IminS:ImaxS,JminS:JmaxS) :: wrk
 #  endif
 
+#  if defined SCORRECTION
+      real(r8), parameter :: sss_mismatch_threshold = 0.2_r8
+#  endif
+
 #  include "set_bounds.h"
 
 #  ifdef QCORRECTION
@@ -265,8 +269,9 @@
         DO i=IstrR,IendR
 #   if defined SCORRECTION
           stflx(i,j,isalt)=stflx(i,j,isalt)*t(i,j,N(ng),nrhs,isalt)-    &
-     &                     Tnudg(isalt,ng)*Hz(i,j,N(ng))*               &
-     &                     (t(i,j,N(ng),nrhs,isalt)-sss(i,j))
+     &                     Tnudg(isalt,ng)*6.0_r8*Hz(i,j,N(ng))*        &
+     &                     MIN(sss_mismatch_threshold,                  &
+     &                         (t(i,j,N(ng),nrhs,isalt)-sss(i,j))
 #   elif defined SRELAXATION
           stflx(i,j,isalt)=-Tnudg(isalt,ng)*Hz(i,j,N(ng))*              &
      &                     (t(i,j,N(ng),nrhs,isalt)-sss(i,j))
