@@ -265,6 +265,7 @@
         integer  :: idTvph        ! tidal current phase
         integer  :: idTzam        ! tidal elevation amplitude
         integer  :: idTzph        ! tidal elevation phase
+        integer  :: idwb          ! observation melt rates
         integer  :: idTpam        ! tidal potential amplitude
         integer  :: idTpph        ! tidal potential phase
         integer  :: idu2dA        ! accumulated 2D U-velocity
@@ -1165,6 +1166,8 @@
               idTzam=varid
             CASE ('idTzph')
               idTzph=varid
+            CASE ('idwb')
+              idwb=varid
             CASE ('idTpam')
               idTpam=varid
             CASE ('idTpph')

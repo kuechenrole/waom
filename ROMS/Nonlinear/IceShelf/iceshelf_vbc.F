@@ -116,6 +116,9 @@
 #   ifdef SHORTWAVE
      &                   FORCES(ng) % srflx,                            &
 #   endif
+#ifdef NUDGE_MELT
+     &                   FORCES(ng) % wb,                               &
+#endif
      &                   FORCES(ng) % stflx                             &
      &                   )
 # ifdef PROFILE
@@ -158,6 +161,9 @@
 #   ifdef SHORTWAVE
      &                         srflx,                                   &
 #   endif
+#ifdef NUDGE_MELT
+     &                         wb,                                      &
+#endif
      &                         stflx)                                   
 !***********************************************************************
 !
@@ -212,6 +218,9 @@
       real(r8), intent(out) :: Sb(LBi:,LBj:)
 #endif
       real(r8), intent(out) :: m(LBi:,LBj:)
+#ifdef NUDGE_MELT
+      real(r8), intent(in) :: wb(LBi:,LBj:)
+#endif
 #ifdef SURFACE_OVERFLUX_FIX
       real(r8), intent(out) :: ssflxSOF(LBi:UBi,LBj:UBj)
       real(r8), intent(out) :: shflxSOF(LBi:UBi,LBj:UBj)
@@ -616,7 +625,9 @@
 
 ! Calculate melt rate:
            m(i,j) = -(cff2 - SQRT(cff2*cff2 - 4*cff1*cff3))/(2*cff1)
-
+#  ifdef NUDGE_MELT
+           m(i,j) = m(i,j) + (wb(i,j) - m(i,j))*0.9_r8
+#  endif
 ! Calculate basal temperature and salinity:
            Tb(i,j) = (gammaT(i,j)*Tm+mflag*(cp_i/cp_w)*m(i,j)*Ti        &
      &             - (L/cp_w)*m(i,j))                                   &

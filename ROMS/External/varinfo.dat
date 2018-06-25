@@ -88,6 +88,15 @@
   'r2dvar'
   1.0d0
 
+'wb'                                                ! Input
+  'ice shelf melt rate observations'
+  'meter second-1'                                 ! [m/s]
+  'melt_rate, scalar, series'
+  'sst_time'
+  'idwb'
+  'r2dvar'
+  1.0d0
+
 'Tstar'                                                ! Output
   'insitu temperature driving force at ice base'
   'Celsius'                                            !

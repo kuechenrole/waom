@@ -324,6 +324,10 @@
           real(r8), pointer :: SpecIr(:,:,:)
           real(r8), pointer :: avcos(:,:,:)
 # endif
+# ifdef NUDGE_MELT
+          real(r8), pointer :: wb(:,:)
+          real(r8), pointer :: wbG(:,:,:)
+# endif
 #endif
 
 #if defined TANGENT || defined TL_IOMS
@@ -639,7 +643,10 @@
       allocate ( FORCES(ng) % SpecIr(LBi:UBi,LBj:UBj,NBands) )
       allocate ( FORCES(ng) % avcos(LBi:UBi,LBj:UBj,NBands) )
 # endif
-
+# ifdef NUDGE_MELT
+      allocate ( FORCES(ng) % wb(LBi:UBi,LBj:UBj) )
+      allocate ( FORCES(ng) % wbG(LBi:UBi,LBj:UBj,2) )
+# endif
 #endif
 
 #if defined TANGENT || defined TL_IOMS
@@ -972,6 +979,11 @@
             FORCES(ng) % sstG(i,j,1) = IniVal
             FORCES(ng) % sstG(i,j,2) = IniVal
 #  endif
+# endif
+# ifdef NUDGE_MELT
+            FORCES(ng) % wb(i,j) = IniVal
+            FORCES(ng) % wbG(i,j,1) = IniVal
+            FORCES(ng) % wbG(i,j,2) = IniVal
 # endif
 # if defined SALINITY && (defined SCORRECTION || defined SRELAXATION)
             FORCES(ng) % sss(i,j) = IniVal

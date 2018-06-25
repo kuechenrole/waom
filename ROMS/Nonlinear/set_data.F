@@ -335,6 +335,21 @@
       END IF
 #  endif
 
+#  ifdef NUDGE_MELT
+!
+!-----------------------------------------------------------------------
+!  Set observational melt rates
+!-----------------------------------------------------------------------
+!
+    CALL set_2dfld_tile (ng, tile, iNLM, idwb,                        &
+     &                     LBi, UBi, LBj, UBj,                        &
+     &                     FORCES(ng)%wbG,                            &
+     &                     FORCES(ng)%wb,                             &
+     &                     update)
+      IF (exit_flag.ne.NoError) RETURN
+
+#  endif
+
 #  ifdef QCORRECTION
 !
 !-----------------------------------------------------------------------
