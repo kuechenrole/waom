@@ -820,12 +820,12 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! per entry with a continuation (\) or vertical bar (|) symbol after each
 ! entry, except the last one.
 
-     NFFILES == 4                          ! number of unique forcing files
+     NFFILES == 3                          ! number of unique forcing files
 
      FRCNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_tds.nc \
                 /g/data2/gh9/oxr581/hr_exp/waom10_sbc.nc \
-                /g/data2/gh9/oxr581/hr_exp/waom10_stable_nudge.nc \         ! two forcing files for surface and tidal forcing and one sst relax file
-                /g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_nudge_wb.nc         ! two forcing files for surface and tidal forcing and one sst relax file
+                /g/data2/gh9/oxr581/hr_exp/waom10_stable_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
+                !/g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_nudge_wb.nc         ! two forcing files for surface and tidal forcing and one sst relax file
                 
 
 

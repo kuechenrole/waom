@@ -141,5 +141,5 @@
 #define SURFACE_OVERFLUX_FIX
 #define QCORRECTION
 #define SCORRECTION
-#define NUDGE_MELT
+#undef NUDGE_MELT
 
