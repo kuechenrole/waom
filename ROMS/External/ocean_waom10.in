@@ -196,7 +196,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 70080
+      NTIMES == 700800
           DT == 900.0d0 
      NDTFAST == 36
 
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == 0
    LcycleRST == T
-        NRST == 0!17520
+        NRST == 8760!3month
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,11 +227,11 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 96!17520!6 month
-     NDEFHIS == 0!!5year
+        NHIS == 17520!6 month
+     NDEFHIS == 35040
       NTSAVG == 0!
-        NAVG == 96!2920!1month
-     NDEFAVG == 0!35040
+        NAVG == 2920!1month
+     NDEFAVG == 35040
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -359,7 +359,7 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! Vertical S-coordinates parameters (see below for details), [1:Ngrids].
 
      THETA_S == 7.0d0                      ! surface stretching parameter  !kait: 7.0
-     THETA_B == 4.0d0                      ! bottom  stretching parameter  !kait: 2.0
+     THETA_B == 8.0d0                      ! bottom  stretching parameter  !kait: 2.0
       TCLINE == 250.0d0                    ! critical depth (m)            !kait: 250.0
                                            ! your parameters might belong to Vstretching 2 instead of 4 ... might be worse updating to kaits
 
@@ -578,8 +578,8 @@ Hout(idMtls) == F       ! gls                turbulent length scale
 
 Hout(idDraft) == F      ! draft              time-dependent iceshelf draft
 Hout(idismr) == T       ! ismr               ice-shelf melt rate
-Hout(idssflxSOF) == T   ! ssflxSOF           surface salt flux correction due to SOF
-Hout(idshflxSOF) == T   ! shflxSOF           surface heat flux correction due to SOF
+Hout(idssflxSOF) == F   ! ssflxSOF           surface salt flux correction due to SOF
+Hout(idshflxSOF) == F   ! shflxSOF           surface heat flux correction due to SOF
 Hout(idisTb) == F       ! isTb               temperature at ice-shelf base
 Hout(idisSb) == F       ! isSb               salinity at ice-shelf base
 
@@ -778,7 +778,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! Input NetCDF file names, [1:Ngrids].
 
      GRDNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_grd.nc
-     ININAME == ../hre10_stable/ocean_his_nudg.nc!/g/data2/gh9/oxr581/hr_exp/waom10_ini.nc
+     ININAME == ocean_ini.nc!/g/data2/gh9/oxr581/hr_exp/waom10_stable_ini.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
