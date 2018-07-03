@@ -777,7 +777,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! Input NetCDF file names, [1:Ngrids].
 
      GRDNAME == /g/data2/gh9/oxr581/waom_frc/waom10_grd.nc
-     ININAME == /g/data2/gh9/oxr581/waom_frc/waom10_ini.nc
+     ININAME == /g/data2/gh9/oxr581/waom_frc/waom10_ini_premixed.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -819,7 +819,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! per entry with a continuation (\) or vertical bar (|) symbol after each
 ! entry, except the last one.
 
-     NFFILES == 3                          ! number of unique forcing files
+     NFFILES == 6                          ! number of unique forcing files
 
      FRCNAME == /g/data2/gh9/oxr581/waom_frc/waom10_tds.nc \
                 /g/data2/gh9/oxr581/waom_frc/waom10_shflux.nc \
