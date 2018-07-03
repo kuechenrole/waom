@@ -196,7 +196,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 700800
+      NTIMES == 700800  !20 years
           DT == 900.0d0 
      NDTFAST == 36
 
@@ -219,7 +219,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
        NRREC == 0
    LcycleRST == T
-        NRST == 8760!3month
+        NRST == 17520!6month
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -228,7 +228,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
      LDEFOUT == T
         NHIS == 17520!6 month
-     NDEFHIS == 35040
+     NDEFHIS == 35040!1year
       NTSAVG == 0!
         NAVG == 2920!1month
      NDEFAVG == 35040
@@ -358,10 +358,9 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 
 ! Vertical S-coordinates parameters (see below for details), [1:Ngrids].
 
-     THETA_S == 7.0d0                      ! surface stretching parameter  !kait: 7.0
-     THETA_B == 8.0d0                      ! bottom  stretching parameter  !kait: 2.0
-      TCLINE == 250.0d0                    ! critical depth (m)            !kait: 250.0
-                                           ! your parameters might belong to Vstretching 2 instead of 4 ... might be worse updating to kaits
+     THETA_S == 7.0d0                      ! surface stretching parameter  
+     THETA_B == 8.0d0                      ! bottom  stretching parameter
+      TCLINE == 250.0d0                    ! critical depth (m)
 
 ! Mean Density and Brunt-Vaisala frequency.
 
@@ -379,10 +378,10 @@ LtracerSponge == F F                            ! temperature, salinity, inert
 ! Nudging/relaxation time scales, inverse scales will be computed
 ! internally, [1:Ngrids].
 
-       TNUDG == 365.0d0                      ! days
+       TNUDG == 365.0d0                    ! days, 365 days on outflow, surface salt relax timescale is set in set_vbc.f90 to 1 month
        ZNUDG == 3.0d0                      ! days
       M2NUDG == 3.0d0                      ! days
-      M3NUDG == 3.0d0                      ! days
+      M3NUDG == 365.0d0                    ! days
 
 ! Factor between passive (outflow) and active (inflow) open boundary
 ! conditions, [1:Ngrids]. If OBCFAC > 1, nudging on inflow is stronger
@@ -509,10 +508,10 @@ Hout(idBath) == F       ! bath               time-dependent bathymetry
 
 Hout(idTvar) == T T     ! temp, salt         temperature and salinity
 
-Hout(idUsms) == F       ! sustr              surface U-stress
-Hout(idVsms) == F       ! svstr              surface V-stress
-Hout(idUbms) == F       ! bustr              bottom U-stress
-Hout(idVbms) == F       ! bvstr              bottom V-stress
+Hout(idUsms) == T       ! sustr              surface U-stress
+Hout(idVsms) == T       ! svstr              surface V-stress
+Hout(idUbms) == T       ! bustr              bottom U-stress
+Hout(idVbms) == T       ! bvstr              bottom V-stress
 
 Hout(idUbrs) == F       ! bustrc             bottom U-current stress
 Hout(idVbrs) == F       ! bvstrc             bottom V-current stress
@@ -556,7 +555,7 @@ Hout(idPair) == F       ! Pair               surface air pressure
 Hout(idUair) == F       ! Uair               surface U-wind component
 Hout(idVair) == F       ! Vair               surface V-wind component
 
-Hout(idTsur) == F F     ! shflux, ssflux     surface net heat and salt flux
+Hout(idTsur) == T T     ! shflux, ssflux     surface net heat and salt flux
 Hout(idLhea) == F       ! latent             latent heat flux
 Hout(idShea) == F       ! sensible           sensible heat flux
 Hout(idLrad) == F       ! lwrad              longwave radiation flux
@@ -565,13 +564,13 @@ Hout(idEmPf) == F       ! EminusP            E-P flux
 Hout(idevap) == F       ! evaporation        evaporation rate
 Hout(idrain) == F       ! rain               precipitation rate
 
-Hout(idDano) == F       ! rho                density anomaly
-Hout(idVvis) == F       ! AKv                vertical viscosity
-Hout(idTdif) == F       ! AKt                vertical T-diffusion
-Hout(idSdif) == F       ! AKs                vertical Salinity diffusion
-Hout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
-Hout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
-Hout(idMtke) == F       ! tke                turbulent kinetic energy
+Hout(idDano) == T       ! rho                density anomaly
+Hout(idVvis) == T       ! AKv                vertical viscosity
+Hout(idTdif) == T       ! AKt                vertical T-diffusion
+Hout(idSdif) == T       ! AKs                vertical Salinity diffusion
+Hout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
+Hout(idHbbl) == T       ! Hbbl               depth of bottom boundary layer
+Hout(idMtke) == T       ! tke                turbulent kinetic energy
 Hout(idMtls) == F       ! gls                turbulent length scale
 
 ! ICESHELF specfic OPTIONS:
@@ -674,8 +673,8 @@ Aout(idDano) == F       ! rho                density anomaly
 Aout(idVvis) == F       ! AKv                vertical viscosity
 Aout(idTdif) == F       ! AKt                vertical T-diffusion
 Aout(idSdif) == F       ! AKs                vertical Salinity diffusion
-Aout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
-Aout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
+Aout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
+Aout(idHbbl) == T       ! Hbbl               depth of bottom boundary layer
 
 Aout(id2dRV) == F       ! pvorticity_bar     2D relative vorticity
 Aout(id3dRV) == F       ! pvorticity         3D relative vorticity
@@ -777,8 +776,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_grd.nc
-     ININAME == ocean_ini.nc!/g/data2/gh9/oxr581/hr_exp/waom10_stable_ini.nc
+     GRDNAME == /g/data2/gh9/oxr581/waom_frc/waom10_grd.nc
+     ININAME == /g/data2/gh9/oxr581/waom_frc/waom10_ini.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -797,7 +796,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == /g/data2/gh9/oxr581/hr_exp/waom10_bry.nc
+     BRYNAME == /g/data2/gh9/oxr581/waom_frc/waom10_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -822,12 +821,12 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 3                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/hr_exp/waom10_stable_tds.nc \
-                /g/data2/gh9/oxr581/hr_exp/waom10_sbc.nc \
-                /g/data2/gh9/oxr581/hr_exp/waom10_stable_nudge.nc         ! two forcing files for surface and tidal forcing and one sst relax file
-                !/g/data2/gh9/oxr581/waom10_v2.0_frc/waom10_small_nudge_wb.nc         ! two forcing files for surface and tidal forcing and one sst relax file
-                
-
+     FRCNAME == /g/data2/gh9/oxr581/waom_frc/waom10_tds.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom10_shflux.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom10_swflux.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom10_sustr.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom10_svstr.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom10_nudge.nc
 
 ! Output NetCDF file names, [1:Ngrids].
 

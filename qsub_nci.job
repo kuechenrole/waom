@@ -2,13 +2,13 @@
 #PBS -P m68
 #PBS -q normal
 #PBS -l mem=96gb,walltime=24:00:00,ncpus=256
-#PBS -N nudg_long
+#PBS -N waom10
 
 #module load intel-fc
 #module load netcdf
 #module load openmpi
 
-cd /short/m68/oxr581/hre10_nudg/
+cd /short/gh9/oxr581/waom10/
 
 #make clean && make -f makefile -j 6
 
