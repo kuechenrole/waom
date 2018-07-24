@@ -1,10 +1,10 @@
 #!/bin/bash
 #PBS -P gi0
-#PBS -q normal
-#PBS -l mem=3072gb,walltime=05:00:00,ncpus=2304
+#PBS -q normalbw
+#PBS -l mem=14336gb,walltime=03:00:00,ncpus=3136
 #PBS -l wd
 #PBS -m b
-#PBS -N 4km_long
+#PBS -N 2km_long
 
 logname=$(date +%Y%m%d%H%M%S)
 
@@ -20,23 +20,23 @@ if [ $error -eq "0" ]; then
   #setenv run_number_old
   run_number=`cat qsub.number`
   # Change .in to accept restarts:
-  if [ $run_number -eq "1" ]; then
+  if [ $run_number -eq "43" ]; then
     sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom.in
-    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom4_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
+    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/waom_frc\/waom2_ini_premixed.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
   fi
   ## # Make high resolution output:
   ## if [ $run_number -eq "4" ]; then
   ##   sed -i 's/NHIS == 43680/NHIS == 180/' /short/m68/deg581/tisom011/ROMS/External/ocean_tisom.in
   ##   sed -i 's/NDEFHIS == 524160/NDEFHIS == 21915/' /short/m68/deg581/tisom011/ROMS/External/ocean_tisom.in
   ## fi
-  if [ $((($run_number+1)%1)) -eq "0" ]; then
-    cp ocean_rst.nc ocean_rst_$run_number.nc
-  fi
+  #if [ $((($run_number+1)%1)) -eq "0" ]; then
+  #  cp ocean_rst.nc ocean_rst_$run_number.nc
+  #fi
   echo "resubmitting next job"
   # resubmit job
-  if [ $run_number -lt "16" ]; then
-    run_number_old=$[5*365*24*3600/100 + $run_number * 78840] # 5 years + 3 month
-    run_number_new=$[$run_number_old + 78840]    # 3 month more
+  if [ $run_number -lt "55" ]; then
+    run_number_old=$[$run_number * 29200] # 7 years + 2 month
+    run_number_new=$[$run_number_old + 29200]    # 2 month more
     sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom.in
     run_number=$[$run_number + 1]
     echo $run_number > qsub.number
