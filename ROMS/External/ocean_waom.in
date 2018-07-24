@@ -68,7 +68,7 @@
 
 ! C-preprocessing Flag.
 
-    MyAppCPP = WAOM
+    MyAppCPP = WAOM10
 
 ! Input variable information file name.  This file needs to be processed
 ! first so all information arrays can be initialized properly.
