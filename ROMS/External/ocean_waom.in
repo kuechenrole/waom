@@ -64,7 +64,7 @@
 !
 ! Application title.
 
-       TITLE = Whole Antarctic and Ocean Application, 10 km resolution
+       TITLE = Whole Antarctic and Ocean Application, 4 km resolution
 
 ! C-preprocessing Flag.
 
