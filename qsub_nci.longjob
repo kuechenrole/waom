@@ -20,7 +20,7 @@ if [ $error -eq "0" ]; then
   #setenv run_number_old
   run_number=`cat qsub.number`
   # Change .in to accept restarts:
-  if [ $run_number -eq "1" ]; then
+  if [ $run_number -eq "16" ]; then
     sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom.in
     sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom4_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
   fi
@@ -34,8 +34,8 @@ if [ $error -eq "0" ]; then
   fi
   echo "resubmitting next job"
   # resubmit job
-  if [ $run_number -lt "16" ]; then
-    run_number_old=$[5*365*24*3600/100 + $run_number * 78840] # 5 years + 3 month
+  if [ $run_number -lt "22" ]; then
+    run_number_old=$[$run_number * 78840] # 5 years + 3 month
     run_number_new=$[$run_number_old + 78840]    # 3 month more
     sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom.in
     run_number=$[$run_number + 1]
