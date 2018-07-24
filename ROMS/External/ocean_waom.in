@@ -68,7 +68,7 @@
 
 ! C-preprocessing Flag.
 
-    MyAppCPP = WAOM10
+    MyAppCPP = WAOM4
 
 ! Input variable information file name.  This file needs to be processed
 ! first so all information arrays can be initialized properly.
@@ -91,8 +91,8 @@ GridsInLayer =  1
 ! Grid dimension parameters. See notes below in the Glossary for how to set
 ! these parameters correctly.
 
-          Lm == 628            ! Number of I-direction INTERIOR RHO-points
-          Mm == 528           ! Number of J-direction INTERIOR RHO-points
+          Lm == 1573 ! Number of I-direction INTERIOR RHO-points
+          Mm == 1323 ! Number of J-direction INTERIOR RHO-points
            N == 31            ! Number of vertical levels
 
         Nbed =  0             ! Number of sediment bed layers
@@ -106,8 +106,8 @@ GridsInLayer =  1
 ! shared-memory configurations used to determine tile horizontal range
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
-      NtileI == 16                               ! I-direction partition
-      NtileJ == 16                               ! J-direction partition
+      NtileI == 48                               ! I-direction partition
+      NtileJ == 48                               ! J-direction partition
 
 ! Set lateral boundary conditions keyword. Notice that a value is expected
 ! for each boundary segment per nested grid for each state variable.
@@ -196,8 +196,8 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Time-Stepping parameters.
 
-      NTIMES == 700800  !20 years
-          DT == 900.0d0 
+      NTIMES == 788400
+          DT == 360.0d0 
      NDTFAST == 36
 
 ! Model iteration loops parameters.
@@ -217,9 +217,9 @@ ad_VolCons(north) ==  F                            ! northern boundary
 
 ! Input/Output parameters.
 
-       NRREC == 0
+       NRREC == -1
    LcycleRST == T
-        NRST == 17520!6month
+        NRST == 21900!every 3 month
         NSTA == 1
         NFLT == 1
        NINFO == 1
@@ -227,11 +227,11 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Output history, average, diagnostic files parameters.
 
      LDEFOUT == T
-        NHIS == 17520!6 month
-     NDEFHIS == 35040!1year
+        NHIS == 43800!6 month
+     NDEFHIS == 87600!1year
       NTSAVG == 0!
-        NAVG == 2920!1month
-     NDEFAVG == 35040
+        NAVG == 7300!1 month
+     NDEFAVG == 87600! 1 year
       NTSDIA == 0
         NDIA == 0  
      NDEFDIA == 0
@@ -261,7 +261,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Harmonic/biharmonic horizontal diffusion of tracer for nonlinear model
 ! and adjoint-based algorithms: [1:NAT+NPT,Ngrids].
 
-        TNU2 ==  50.0d0  50.0d0                   ! m2/s  may has to change with resolution
+        TNU2 == 20.0d0 20.0d0                   ! m2/s  may has to change with resolution
         TNU4 ==  0.0d0  0.0d0                   ! m4/s
 
      ad_TNU2 == 0.0d0  0.0d0                    ! m2/s
@@ -270,7 +270,7 @@ ad_VolCons(north) ==  F                            ! northern boundary
 ! Harmonic/biharmonic, horizontal viscosity coefficient for nonlinear model
 ! and adjoint-based algorithms: [Ngrids].
 
-       VISC2 ==  500.0d0                        ! m2/s  may has to change with resolution
+       VISC2 ==  200.0d0                        ! m2/s  may has to change with resolution
        VISC4 ==  0.0d0                          ! m4/s
 
     ad_VISC2 == 0.0d0                           ! m2/s
@@ -508,10 +508,10 @@ Hout(idBath) == F       ! bath               time-dependent bathymetry
 
 Hout(idTvar) == T T     ! temp, salt         temperature and salinity
 
-Hout(idUsms) == T       ! sustr              surface U-stress
-Hout(idVsms) == T       ! svstr              surface V-stress
-Hout(idUbms) == T       ! bustr              bottom U-stress
-Hout(idVbms) == T       ! bvstr              bottom V-stress
+Hout(idUsms) == F       ! sustr              surface U-stress
+Hout(idVsms) == F       ! svstr              surface V-stress
+Hout(idUbms) == F       ! bustr              bottom U-stress
+Hout(idVbms) == F       ! bvstr              bottom V-stress
 
 Hout(idUbrs) == F       ! bustrc             bottom U-current stress
 Hout(idVbrs) == F       ! bvstrc             bottom V-current stress
@@ -555,7 +555,7 @@ Hout(idPair) == F       ! Pair               surface air pressure
 Hout(idUair) == F       ! Uair               surface U-wind component
 Hout(idVair) == F       ! Vair               surface V-wind component
 
-Hout(idTsur) == T T     ! shflux, ssflux     surface net heat and salt flux
+Hout(idTsur) == F F     ! shflux, ssflux     surface net heat and salt flux
 Hout(idLhea) == F       ! latent             latent heat flux
 Hout(idShea) == F       ! sensible           sensible heat flux
 Hout(idLrad) == F       ! lwrad              longwave radiation flux
@@ -564,13 +564,13 @@ Hout(idEmPf) == F       ! EminusP            E-P flux
 Hout(idevap) == F       ! evaporation        evaporation rate
 Hout(idrain) == F       ! rain               precipitation rate
 
-Hout(idDano) == T       ! rho                density anomaly
-Hout(idVvis) == T       ! AKv                vertical viscosity
-Hout(idTdif) == T       ! AKt                vertical T-diffusion
-Hout(idSdif) == T       ! AKs                vertical Salinity diffusion
-Hout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
-Hout(idHbbl) == T       ! Hbbl               depth of bottom boundary layer
-Hout(idMtke) == T       ! tke                turbulent kinetic energy
+Hout(idDano) == F       ! rho                density anomaly
+Hout(idVvis) == F       ! AKv                vertical viscosity
+Hout(idTdif) == F       ! AKt                vertical T-diffusion
+Hout(idSdif) == F       ! AKs                vertical Salinity diffusion
+Hout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
+Hout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
+Hout(idMtke) == F       ! tke                turbulent kinetic energy
 Hout(idMtls) == F       ! gls                turbulent length scale
 
 ! ICESHELF specfic OPTIONS:
@@ -673,8 +673,8 @@ Aout(idDano) == F       ! rho                density anomaly
 Aout(idVvis) == F       ! AKv                vertical viscosity
 Aout(idTdif) == F       ! AKt                vertical T-diffusion
 Aout(idSdif) == F       ! AKs                vertical Salinity diffusion
-Aout(idHsbl) == T       ! Hsbl               depth of surface boundary layer
-Aout(idHbbl) == T       ! Hbbl               depth of bottom boundary layer
+Aout(idHsbl) == F       ! Hsbl               depth of surface boundary layer
+Aout(idHbbl) == F       ! Hbbl               depth of bottom boundary layer
 
 Aout(id2dRV) == F       ! pvorticity_bar     2D relative vorticity
 Aout(id3dRV) == F       ! pvorticity         3D relative vorticity
@@ -712,8 +712,8 @@ Aout(iHVTav) == F F     ! Hvom_temp, ...     tracer volume flux, <Hvom*t>
 ! ICESHELF specfic OPTIONS:
 
 Aout(idismr) == T       ! ismr               ice-shelf melt rate
-Aout(idssflxSOF) == T   ! ssflxSOF           surface salt flux correction due to SOF
-Aout(idshflxSOF) == T   ! shflxSOF           surface heat flux correction due to SOF
+Aout(idssflxSOF) == F   ! ssflxSOF           surface salt flux correction due to SOF
+Aout(idshflxSOF) == F   ! shflxSOF           surface heat flux correction due to SOF
 
 ! Logical switches (TRUE/FALSE) to activate writing of time-averaged,
 ! 2D momentum (ubar,vbar) diagnostic terms into DIAGNOSTIC output file.
@@ -776,8 +776,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/waom_frc/waom10_grd.nc
-     ININAME == /g/data2/gh9/oxr581/waom_frc/waom10_ini_premixed.nc
+     GRDNAME == /g/data2/gh9/oxr581/waom_frc/waom4_grd.nc
+     ININAME == ocean_rst.nc!/g/data2/gh9/oxr581/waom_frc/waom4_ini_premixed.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -796,7 +796,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == /g/data2/gh9/oxr581/waom_frc/waom10_bry.nc
+     BRYNAME == /g/data2/gh9/oxr581/waom_frc/waom4_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -821,12 +821,12 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 6                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/waom_frc/waom10_tds.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom10_shflux.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom10_swflux.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom10_sustr.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom10_svstr.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom10_nudge.nc
+     FRCNAME == /g/data2/gh9/oxr581/waom_frc/waom4_tds.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom4_shflux.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom4_swflux.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom4_sustr.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom4_svstr.nc \
+                /g/data2/gh9/oxr581/waom_frc/waom4_nudge.nc
 
 ! Output NetCDF file names, [1:Ngrids].
 
