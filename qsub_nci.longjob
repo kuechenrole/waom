@@ -4,13 +4,13 @@
 #PBS -l mem=3072gb,walltime=05:00:00,ncpus=2304
 #PBS -l wd
 #PBS -m b
-#PBS -N 4km_long
+#PBS -N 4km_salt
 
 logname=$(date +%Y%m%d%H%M%S)
 
 mpiexec oceanM ROMS/External/ocean_waom.in > ocean.log.$logname
 
-find *.nc -user oxr581 -group m68 -exec chgrp -ch gh9 {} \;
+find *.nc -user oxr581 -group gi0 -exec chgrp -ch gh9 {} \;
 
 # Check for blowup
 grep -iE 'error:|Abnormal|blow|blowup' ocean.log.$logname | wc -l > blowupstatus #output_error
@@ -20,9 +20,9 @@ if [ $error -eq "0" ]; then
   #setenv run_number_old
   run_number=`cat qsub.number`
   # Change .in to accept restarts:
-  if [ $run_number -eq "16" ]; then
+  if [ $run_number -eq "6" ]; then
     sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom.in
-    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom4_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
+    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/waom_frc\/waom4_ini_nt_premixed.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
   fi
   ## # Make high resolution output:
   ## if [ $run_number -eq "4" ]; then
@@ -34,9 +34,9 @@ if [ $error -eq "0" ]; then
   fi
   echo "resubmitting next job"
   # resubmit job
-  if [ $run_number -lt "22" ]; then
-    run_number_old=$[$run_number * 78840] # 5 years + 3 month
-    run_number_new=$[$run_number_old + 78840]    # 3 month more
+  if [ $run_number -lt "10" ]; then
+    run_number_old=$[$run_number * 87600] 
+    run_number_new=$[$run_number_old + 87600]
     sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom.in
     run_number=$[$run_number + 1]
     echo $run_number > qsub.number
