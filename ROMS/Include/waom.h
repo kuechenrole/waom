@@ -130,7 +130,6 @@
 
 #define PERFECT_RESTART
 #define AVERAGES
-#define INLINE_2DIO
 
 /************ other ************************/
 
