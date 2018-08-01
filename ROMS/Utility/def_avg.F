@@ -2041,9 +2041,9 @@
             got_var(idFsur)=.TRUE.
             AVG(ng)%Vid(idFsur)=var_id(i)
 # ifdef ICESHELF
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
-            got_var(idssflxSOF)=.TRUE.
-            AVG(ng)%Vid(idssflxSOF)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
+            got_var(idismr)=.TRUE.
+            AVG(ng)%Vid(idismr)=var_id(i)
 # endif
 # ifdef SURFACE_OVERFLUX_FIX
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
