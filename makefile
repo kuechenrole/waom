@@ -355,7 +355,7 @@ ifndef FORT
 endif
 
 ifneq "$(MAKECMDGOALS)" "clean"
-  include $(COMPILERS)/$(OS)-$(strip $(FORT))-oxr-nci.mk
+  include $(COMPILERS)/$(OS)-$(strip $(FORT))-nci.mk
 endif
 
 ifdef USE_MPI

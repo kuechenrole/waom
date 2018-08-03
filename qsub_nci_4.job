@@ -11,4 +11,4 @@ module load openmpi/3.1.0
 
 make clean && make -f makefile -j 256
 
-mpiexec oceanM ROMS/External/ocean_waom.in > ocean.log
+mpiexec oceanM ROMS/External/ocean_waom4.in > ocean.log

@@ -1,14 +1,14 @@
 #!/bin/bash
 #PBS -P gi0
 #PBS -q normalbw
-#PBS -l mem=14336gb,walltime=03:00:00,ncpus=3136
+#PBS -l mem=2048gb,walltime=02:00:00,ncpus=224
 #PBS -l wd
 #PBS -m b
 #PBS -N 2km_long
 
 logname=$(date +%Y%m%d%H%M%S)
 
-mpiexec oceanM ROMS/External/ocean_waom.in > ocean.log.$logname
+mpiexec oceanM ROMS/External/ocean_waom2.in > ocean.log.$logname
 
 find *.nc -user oxr581 -group m68 -exec chgrp -ch gh9 {} \;
 
@@ -20,9 +20,9 @@ if [ $error -eq "0" ]; then
   #setenv run_number_old
   run_number=`cat qsub.number`
   # Change .in to accept restarts:
-  if [ $run_number -eq "43" ]; then
-    sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom.in
-    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/waom_frc\/waom2_ini_premixed.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
+  if [ $run_number -eq "512" ]; then #7 years and 5 days in 5 day chunks
+    sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom2.in
+    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/waom_frc\/waom2_ini_premixed.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom2.in
   fi
   ## # Make high resolution output:
   ## if [ $run_number -eq "4" ]; then
@@ -34,13 +34,13 @@ if [ $error -eq "0" ]; then
   #fi
   echo "resubmitting next job"
   # resubmit job
-  if [ $run_number -lt "55" ]; then
-    run_number_old=$[$run_number * 29200] # 7 years + 2 month
-    run_number_new=$[$run_number_old + 29200]    # 2 month more
-    sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom.in
+  if [ $run_number -lt "658" ]; then
+    run_number_old=$[$run_number * 2400] # 5 day chunks
+    run_number_new=$[$run_number_old + 2400]  
+    sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom2.in
     run_number=$[$run_number + 1]
     echo $run_number > qsub.number
-    qsub qsub_nci.longjob
+    qsub qsub_nci_2.longjob
   else
     echo "not resubmitting as reached max qsub.number"
   fi
