@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -P gi0
+#PBS -q normal
+#PBS -l mem=18432gb,walltime=00:10:00,ncpus=9216
+#PBS -l wd
+#PBS -N n96x96
+
+module load intel-fc/2018.1.163
+module load netcdf/4.6.1
+module load openmpi/3.1.0
+
+make clean && make -f makefile -j 256
+
+mpiexec oceanM ROMS/External/ocean_waom.in > ocean.log
