@@ -8,7 +8,7 @@
 
 logname=$(date +%Y%m%d%H%M%S)
 
-mpiexec oceanM ROMS/External/ocean_waom.in > ocean.log.$logname
+mpiexec oceanM ROMS/External/ocean_waom10.in > ocean.log.$logname
 
 find *.nc -user oxr581 -group m68 -exec chgrp -ch gh9 {} \;
 
@@ -21,8 +21,8 @@ if [ $error -eq "0" ]; then
   run_number=`cat qsub.number`
   # Change .in to accept restarts:
   if [ $run_number -eq "1" ]; then
-    sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom.in
-    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom10_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom.in
+    sed -i 's/NRREC == 0/NRREC == -1/' ROMS/External/ocean_waom10.in
+    sed -i 's/ININAME == \/g\/data2\/gh9\/oxr581\/hr_exp\/waom10_ini.nc/ININAME == ocean_rst.nc/' ROMS/External/ocean_waom10.in
   fi
   ## # Make high resolution output:
   ## if [ $run_number -eq "4" ]; then
@@ -37,10 +37,10 @@ if [ $error -eq "0" ]; then
   if [ $run_number -lt "7" ]; then
     run_number_old=$[$run_number * 525600] 
     run_number_new=$[$run_number_old + 525600]    # 5 years more
-    sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom.in
+    sed -i 's/NTIMES == '$run_number_old'/NTIMES == '$run_number_new'/' ROMS/External/ocean_waom10.in
     run_number=$[$run_number + 1]
     echo $run_number > qsub.number
-    qsub qsub_nci.longjob
+    qsub qsub_nci_10.longjob
   else
     echo "not resubmitting as reached max qsub.number"
   fi

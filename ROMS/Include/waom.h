@@ -99,32 +99,6 @@
 #define UV_TIDES
 #define ADD_M2OBC
 #define RAMP_TIDES
-/*
-#define FSOBC_REDUCED
-#define POT_TIDES
-#define TIMELESS_DATA
-*/
-
-/*SSH RED POT NoNodal*/
-/*
-#define RAMP_TIDES
-#define SSH_TIDES
-#define FSOBC_REDUCED
-#define ADD_M2OBC
-#define ADD_FSOBC
-*/
-
-/*SSH UV POT NoNodal*/
-/*
-#define RAMP_TIDES
-#define SSH_TIDES
-#define UV_TIDES
-#define ADD_M2OBC
-#define ADD_FSOBC
-#define POT_TIDES
-#define TIMELESS_DATA
-*/
-
 
 /************ NETCDF Input output *************/
 
