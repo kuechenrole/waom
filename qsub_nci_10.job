@@ -5,9 +5,9 @@
 #PBS -l wd
 #PBS -N 10km
 
-module load intel-fc/2018.1.163
-module load netcdf/4.6.1
-module load openmpi/3.1.0
+module load intel-fc
+module load netcdf
+module load openmpi
 
 make clean && make -f makefile -j 256
 
