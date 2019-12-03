@@ -1266,6 +1266,20 @@
                 RETURN
               END IF
               Npts=load_l(Nval, Cval, Ngrids, Hout(idismr,:))
+            CASE ('Hout(idustar)')
+              IF (idustar.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idustar'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idustar,:))
+            CASE ('Hout(idTstar)')
+              IF (idTstar.eq.0) THEN
+                IF (Master) WRITE (out,280) 'idTstar'
+                exit_flag=5
+                RETURN
+              END IF
+              Npts=load_l(Nval, Cval, Ngrids, Hout(idTstar,:))
             CASE ('Hout(idisTb)')
               IF (idisTb.eq.0) THEN
                 IF (Master) WRITE (out,280) 'idisTb'
@@ -1812,6 +1826,10 @@
 # if defined ICESHELF
             CASE ('Aout(idismr)')
               Npts=load_l(Nval, Cval, Ngrids, Aout(idismr,:))
+            CASE ('Aout(idustar)')
+              Npts=load_l(Nval, Cval, Ngrids, Aout(idustar,:))
+            CASE ('Aout(idTstar)')
+              Npts=load_l(Nval, Cval, Ngrids, Aout(idTstar,:))
 # endif
 # if defined SURFACE_OVERFLUX_FIX
             CASE ('Aout(idssflxSOF)')
@@ -4012,6 +4030,12 @@
           IF (Hout(idismr,ng)) WRITE (out,170) Hout(idismr,ng),         &
      &       'Hout(idismr)',                                            &
      &       'Write out ice shelf melt rate.'
+          IF (Hout(idustar,ng)) WRITE (out,170) Hout(idustar,ng),         &
+     &       'Hout(idustar)',                                            &
+     &       'Write out friction velocity.'
+          IF (Hout(idTstar,ng)) WRITE (out,170) Hout(idTstar,ng),         &
+     &       'Hout(idTstar)',                                            &
+     &       'Write out thermal driving.'
           IF (Hout(idisTb,ng)) WRITE (out,170) Hout(idisTb,ng),         &
      &       'Hout(idisTb)',                                            &
      &       'Write out temperature at base of ice shelf.'
@@ -4314,6 +4338,12 @@
           IF (Aout(idismr,ng)) WRITE (out,170) Aout(idismr,ng),         &
      &       'Aout(idismr)',                                            &
      &       'Write out averaged melt rate.'
+          IF (Aout(idustar,ng)) WRITE (out,170) Aout(idustar,ng),         &
+     &       'Aout(idustar)',                                            &
+     &       'Write out average friction velocity.'
+          IF (Aout(idTstar,ng)) WRITE (out,170) Aout(idTstar,ng),         &
+     &       'Aout(idTstar)',                                            &
+     &       'Write out averaged thermal driving.'
 # endif
 # if defined SURFACE_OVERFLUX_FIX
           IF (Aout(idssflxSOF,ng)) WRITE (out,170) Aout(idssflxSOF,ng),         &

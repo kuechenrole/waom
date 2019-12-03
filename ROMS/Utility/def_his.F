@@ -518,15 +518,15 @@
 !
 !  Define temperature driving force at the base of the ice shelf.
 !
-        IF (Hout(idisTstar,ng)) THEN
-          Vinfo( 1)=Vname(1,idisTstar)
-          Vinfo( 2)=Vname(2,idisTstar)
-          Vinfo( 3)=Vname(3,idisTstar)
-          Vinfo(14)=Vname(4,idisTstar)
-          Vinfo(16)=Vname(1,idisTstar)
+        IF (Hout(idTstar,ng)) THEN
+          Vinfo( 1)=Vname(1,idTstar)
+          Vinfo( 2)=Vname(2,idTstar)
+          Vinfo( 3)=Vname(3,idTstar)
+          Vinfo(14)=Vname(4,idTstar)
+          Vinfo(16)=Vname(1,idTstar)
           Vinfo(22)='coordinates'
-          Aval(5)=REAL(Iinfo(1,idisTstar,ng),r8)
-          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idisTstar),   &
+          Aval(5)=REAL(Iinfo(1,idTstar,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idTstar),   &
      &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
      &                   SetFillVal = .FALSE.)
           IF (exit_flag.ne.NoError) RETURN
@@ -534,15 +534,15 @@
 !
 !  Define friction velocity at the base of the ice shelf.
 !
-        IF (Hout(idisUstar,ng)) THEN
-          Vinfo( 1)=Vname(1,idisUstar)
-          Vinfo( 2)=Vname(2,idisUstar)
-          Vinfo( 3)=Vname(3,idisUstar)
-          Vinfo(14)=Vname(4,idisUstar)
-          Vinfo(16)=Vname(1,idisUstar)
+        IF (Hout(idUstar,ng)) THEN
+          Vinfo( 1)=Vname(1,idustar)
+          Vinfo( 2)=Vname(2,idustar)
+          Vinfo( 3)=Vname(3,idustar)
+          Vinfo(14)=Vname(4,idustar)
+          Vinfo(16)=Vname(1,idustar)
           Vinfo(22)='coordinates'
-          Aval(5)=REAL(Iinfo(1,idisUstar,ng),r8)
-          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idisUstar),   &
+          Aval(5)=REAL(Iinfo(1,idustar,ng),r8)
+          status=def_var(ng, iNLM, HIS(ng)%ncid, HIS(ng)%Vid(idustar),   &
      &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname,    &
      &                   SetFillVal = .FALSE.)
           IF (exit_flag.ne.NoError) RETURN
@@ -2547,12 +2547,12 @@
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
             got_var(idismr)=.TRUE.
             HIS(ng)%Vid(idismr)=var_id(i)
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisTstar))) THEN
-            got_var(idisTstar)=.TRUE.
-            HIS(ng)%Vid(idisTstar)=var_id(i)
-          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisUstar))) THEN
-            got_var(idisUstar)=.TRUE.
-            HIS(ng)%Vid(idisUstar)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idTstar))) THEN
+            got_var(idTstar)=.TRUE.
+            HIS(ng)%Vid(idTstar)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idustar))) THEN
+            got_var(idustar)=.TRUE.
+            HIS(ng)%Vid(idustar)=var_id(i)
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idisTb))) THEN
             got_var(idisTb)=.TRUE.
             HIS(ng)%Vid(idisTb)=var_id(i)

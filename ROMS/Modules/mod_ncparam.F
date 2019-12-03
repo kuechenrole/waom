@@ -169,6 +169,8 @@
 !
         integer  :: idAice        ! fraction of cell covered by ice
         integer  :: idismr        ! iceshelf melt rate
+        integer  :: idustar        ! iceshelf melt rate
+        integer  :: idTstar        ! iceshelf melt rate
         integer  :: idshflxSOF        ! iceshelf melt rate
         integer  :: idssflxSOF        ! iceshelf melt rate
         integer  :: iddraft       ! iceshelf draft
@@ -916,6 +918,10 @@
               idtime=varid
             CASE ('idismr')
               idismr=varid
+            CASE ('idustar')
+              idustar=varid
+            CASE ('idTstar')
+              idTstar=varid
             CASE ('idssflxSOF')
               idssflxSOF=varid
             CASE ('idshflxSOF')

@@ -492,6 +492,42 @@
      &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
           IF (exit_flag.ne.NoError) RETURN
         END IF
+!
+!  Define friction velocity.
+!
+        IF (Aout(idustar,ng)) THEN
+          Vinfo( 1)=Vname(1,idustar)
+          WRITE (Vinfo( 2),'(a,1x,a)') Prefix, TRIM(Vname(2,idustar))
+          Vinfo( 3)=Vname(3,idustar)
+          Vinfo(14)=Vname(4,idustar)
+          Vinfo(16)=Vname(1,idtime)
+#  if !defined WET_DRY && (defined WRITE_WATER && defined MASKING)
+          Vinfo(20)='mask_rho'
+#  endif
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idustar,ng),r8)
+          status=def_var(ng, model, AVG(ng)%ncid, AVG(ng)%Vid(idustar),  &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
+!
+!  Define thermal forcing.
+!
+        IF (Aout(idTstar,ng)) THEN
+          Vinfo( 1)=Vname(1,idTstar)
+          WRITE (Vinfo( 2),'(a,1x,a)') Prefix, TRIM(Vname(2,idTstar))
+          Vinfo( 3)=Vname(3,idTstar)
+          Vinfo(14)=Vname(4,idTstar)
+          Vinfo(16)=Vname(1,idtime)
+#  if !defined WET_DRY && (defined WRITE_WATER && defined MASKING)
+          Vinfo(20)='mask_rho'
+#  endif
+          Vinfo(22)='coordinates'
+          Aval(5)=REAL(Iinfo(1,idTstar,ng),r8)
+          status=def_var(ng, model, AVG(ng)%ncid, AVG(ng)%Vid(idTstar),  &
+     &                   NF_FOUT, nvd3, t2dgrd, Aval, Vinfo, ncname)
+          IF (exit_flag.ne.NoError) RETURN
+        END IF
 # endif
 
 # ifdef SURFACE_OVERFLUX_FIX
@@ -2044,6 +2080,12 @@
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idismr))) THEN
             got_var(idismr)=.TRUE.
             AVG(ng)%Vid(idismr)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idustar))) THEN
+            got_var(idustar)=.TRUE.
+            AVG(ng)%Vid(idustar)=var_id(i)
+          ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idTstar))) THEN
+            got_var(idTstar)=.TRUE.
+            AVG(ng)%Vid(idTstar)=var_id(i)
 # endif
 # ifdef SURFACE_OVERFLUX_FIX
           ELSE IF (TRIM(var_name(i)).eq.TRIM(Vname(1,idssflxSOF))) THEN
@@ -2380,6 +2422,18 @@
 # ifdef ICESHELF
         IF (.not.got_var(idismr).and.Aout(idismr,ng)) THEN
           IF (Master) WRITE (stdout,60) TRIM(Vname(1,idismr)),          &
+     &                                  TRIM(ncname)
+          exit_flag=3
+          RETURN
+        END IF
+        IF (.not.got_var(idustar).and.Aout(idustar,ng)) THEN
+          IF (Master) WRITE (stdout,60) TRIM(Vname(1,idustar)),          &
+     &                                  TRIM(ncname)
+          exit_flag=3
+          RETURN
+        END IF
+        IF (.not.got_var(idTstar).and.Aout(idTstar,ng)) THEN
+          IF (Master) WRITE (stdout,60) TRIM(Vname(1,idTstar)),          &
      &                                  TRIM(ncname)
           exit_flag=3
           RETURN

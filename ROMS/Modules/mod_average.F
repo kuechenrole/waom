@@ -29,6 +29,8 @@
 # endif
 # ifdef ICESHELF
 !  avgismr    Ice shelf melt rate (m/s).
+!  avgustar   friction velocity (m/s).
+!  avgTstar   thermal driving (degC).
 # endif
 
 # ifdef SOLVE3D
@@ -158,6 +160,8 @@
 # endif
 # ifdef ICESHELF
           real(r8), pointer :: avgismr(:,:)
+          real(r8), pointer :: avgustar(:,:)
+          real(r8), pointer :: avgTstar(:,:)
 # endif
 
           real(r8), pointer :: avgu2d(:,:)
@@ -342,6 +346,12 @@
 # ifdef ICESHELF
       IF (Aout(idismr,ng)) THEN
          allocate ( AVERAGE(ng) % avgismr(LBi:UBi,LBj:UBj) )
+      END IF
+      IF (Aout(idustar,ng)) THEN
+         allocate ( AVERAGE(ng) % avgustar(LBi:UBi,LBj:UBj) )
+      END IF
+      IF (Aout(idTstar,ng)) THEN
+         allocate ( AVERAGE(ng) % avgTstar(LBi:UBi,LBj:UBj) )
       END IF
 # endif
 

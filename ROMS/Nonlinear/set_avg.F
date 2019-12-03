@@ -302,6 +302,28 @@
             END DO
           END DO
         END IF
+        IF (Aout(idustar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgustar(i,j)=ICESHELFVAR(ng)%m(i,j)
+#  ifdef WET_DRY
+              AVERAGE(ng)%avgustar(i,j)=AVERAGE(ng)%avgustar(i,j)*        &
+     &                                 GRID(ng)%rmask_full(i,j)
+#  endif
+            END DO
+          END DO
+        END IF
+        IF (Aout(idTstar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgTstar(i,j)=ICESHELFVAR(ng)%m(i,j)
+#  ifdef WET_DRY
+              AVERAGE(ng)%avgTstar(i,j)=AVERAGE(ng)%avgTstar(i,j)*        &
+     &                                 GRID(ng)%rmask_full(i,j)
+#  endif
+            END DO
+          END DO
+        END IF
 # endif
 
 # ifdef SURFACE_OVERFULX_FIX
@@ -1341,6 +1363,28 @@
           DO j=JstrR,JendR
             DO i=IstrR,IendR
               AVERAGE(ng)%avgismr(i,j)=AVERAGE(ng)%avgismr(i,j)+        &
+#  ifdef WET_DRY
+     &                                 GRID(ng)%rmask_full(i,j)*        &
+#  endif
+     &                                 ICESHELFVAR(ng)%m(i,j)
+            END DO
+          END DO
+        END IF
+        IF (Aout(idustar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgustar(i,j)=AVERAGE(ng)%avgustar(i,j)+        &
+#  ifdef WET_DRY
+     &                                 GRID(ng)%rmask_full(i,j)*        &
+#  endif
+     &                                 ICESHELFVAR(ng)%m(i,j)
+            END DO
+          END DO
+        END IF
+        IF (Aout(idTstar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgTstar(i,j)=AVERAGE(ng)%avgTstar(i,j)+        &
 #  ifdef WET_DRY
      &                                 GRID(ng)%rmask_full(i,j)*        &
 #  endif
@@ -2413,6 +2457,46 @@
      &                           NghostPoints,                          &
      &                           EWperiodic(ng), NSperiodic(ng),        &
      &                           AVERAGE(ng)%avgismr)
+#  endif
+           END IF
+         END IF
+        IF (Aout(idustar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgustar(i,j)=rfac(i,j)*                       &
+     &                                 AVERAGE(ng)%avgustar(i,j)
+            END DO
+          END DO
+          IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
+             CALL exchange_r2d_tile (ng, tile,                          &
+     &                               LBi, UBi, LBj, UBj,                &
+     &                               AVERAGE(ng)%avgustar)
+#  ifdef DISTRIBUTE
+             CALL mp_exchange2d (ng, tile, iNLM, 1,                     &
+     &                           LBi, UBi, LBj, UBj,                    &
+     &                           NghostPoints,                          &
+     &                           EWperiodic(ng), NSperiodic(ng),        &
+     &                           AVERAGE(ng)%avgustar)
+#  endif
+           END IF
+         END IF
+        IF (Aout(idTstar,ng)) THEN
+          DO j=JstrR,JendR
+            DO i=IstrR,IendR
+              AVERAGE(ng)%avgTstar(i,j)=rfac(i,j)*                       &
+     &                                 AVERAGE(ng)%avgTstar(i,j)
+            END DO
+          END DO
+          IF (EWperiodic(ng).or.NSperiodic(ng)) THEN
+             CALL exchange_r2d_tile (ng, tile,                          &
+     &                               LBi, UBi, LBj, UBj,                &
+     &                               AVERAGE(ng)%avgTstar)
+#  ifdef DISTRIBUTE
+             CALL mp_exchange2d (ng, tile, iNLM, 1,                     &
+     &                           LBi, UBi, LBj, UBj,                    &
+     &                           NghostPoints,                          &
+     &                           EWperiodic(ng), NSperiodic(ng),        &
+     &                           AVERAGE(ng)%avgTstar)
 #  endif
            END IF
          END IF
