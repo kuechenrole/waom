@@ -1,9 +1,4 @@
-#include "cppdefs.h"
       MODULE mod_average
-#if defined AVERAGES    || \
-   (defined AD_AVERAGES && defined ADJOINT) || \
-   (defined RP_AVERAGES && defined TL_IOMS) || \
-   (defined TL_AVERAGES && defined TANGENT)
 !
 !svn $Id$
 !================================================== Hernan G. Arango ===
@@ -23,17 +18,11 @@
 !  avgu2dE    2D Eastward  component (m/s) at RHO-points.              !
 !  avgv2dN    2D Northward component (m/s) at RHO-points.              !
 !  avgzeta    Free surface (m).                                        !
-# ifdef SURFACE_OVERFLUX_FIX
 !  avgssflxSOF    Ice shelf melt rate (m/s).
 !  avgshflxSOF    Ice shelf melt rate (m/s).
-# endif
-# ifdef ICESHELF
 !  avgismr    Ice shelf melt rate (m/s).
 !  avgustar   friction velocity (m/s).
 !  avgTstar   thermal driving (degC).
-# endif
-
-# ifdef SOLVE3D
 !  avgu3d     3D velocity  component (m/s) in the XI-direction.        !
 !  avgv3d     3D velocity  component (m/s) in the ETA-direction.       !
 !  avgu3dE    3D Eastward  component (m/s) at RHO-points.              !
@@ -43,28 +32,11 @@
 !  avgrho     Density anomaly (kg/m3).                                 !
 !  avgt       Tracer type variables (usually, potential temperature    !
 !               and salinity).                                         !
-
-#  if defined LMD_MIXING || defined MY25_MIXING || defined GLS_MIXING
 !  avgAKt     Vertical diffusion of temperature (m2/s).                !
 !  avgAKv     Vertical viscosity (m2/s).                               !
 !  avgAKs     Vertical diffusion of Salinity (m2/s).                   !
-#  endif
-#  ifdef LMD_SKPP
 !  avghsbl    Depth of oceanic surface boundary layer (m).             !
-#  endif
-#  ifdef LMD_BKPP
 !  avghbbl    Depth of oceanic bottom boundary layer (m).              !
-#  endif
-# endif
-# if defined FORWARD_WRITE && defined SOLVE3D
-!                                                                      !
-!  Time-averaged 2D/3D coupling terms.                                 !
-!                                                                      !
-!  avgDU_avg1 time-averaged u-flux for 3D momentum coupling.           !
-!  avgDU_avg2 time-averaged u-flux for 3D momentum coupling.           !
-!  avgDV_avg1 time-averaged v-flux for 3D momentum coupling.           !
-!  avgDV_avg2 time-averaged v-flux for 3D momentum coupling.           !
-# endif
 !                                                                      !
 !  Time-averaged surface and bottom fluxes.                            !
 !                                                                      !
@@ -72,56 +44,15 @@
 !  avgsvs     Surface v-momentum stress (N/m2).                        !
 !  avgbus     Bottom u-momentum stress (N/m2).                         !
 !  avgbvs     Bottom v-momentum stress (N/m2).                         !
-
-# ifdef SOLVE3D
 !  avgstf     Surface net heat flux (W/m2).                            !
 !  avgswf     Surface net freshwater flux (kg/m2/s).                   !
-#  ifdef SHORTWAVE
 !  avgsrf     Shortwave radiation flux (W/m2).                         !
-#  endif
-#  ifdef BULK_FLUXES
-!  avglhf     Latent heat flux (W/m2).                                 !
-!  avglrf     Longwave radiation flux (W/m2).                          !
-!  avgshf     Sensible heat flux (W/m2).                               !
-#   ifdef EMINUSP
-!  avgevap    Surface net evaporation (kg/m2/s).                       !
-!  avgrain    Surface net rain fall (kg/m2/s).                         !
-#   endif
-#  endif
-# endif
-
-# ifdef NEARSHORE_MELLOR
-!  Time-averaged radiation stresses.                                   !
-!                                                                      !
-!  avgu2Sd    2D stokes velocity component (m/s) in the XI-direction.  !
-!  avgv2Sd    2D stokes velocity component (m/s) in the ETA-direction. !
-!  avgu2RS    2D radiation stress tensor in the XI-direction.          !
-!  avgv2RS    2D radiation stress tensor in the ETA-direction.         !
-!  avgSxx2d   2D radiation stress, xx-component.                       !
-!  avgSxy2d   2D radiation stress, xy-component.                       !
-!  avgSyy2d   2D radiation stress, yy-component.                       !
-#  ifdef SOLVE3D
-!  avgu3Sd    3D stokes velocity component (m/s) in the XI-direction.  !
-!  avgv3Sd    3D stokes velocity component (m/s) in the ETA-direction. !
-!  avgu3RS    3D radiation stress tensor in the XI-direction.          !
-!  avgv3RS    3D radiation stress tensor in the ETA-direction.         !
-!  avgSxx3d   3D radiation stress, xx-component.                       !
-!  avgSxy3d   3D radiation stress, xy-component.                       !
-!  avgSyy3d   3D radiation stress, yy-component.                       !
-#   ifdef NEARSHORE_MELLOR05
-!  avgSzx3d   3D radiation stress, zx-component.                       !
-!  avgSzy3d   3D radiation stress, zy-component.                       !
-#   endif
-#  endif
-# endif
 !                                                                      !
 !  Time-averaged quadratic fields.                                     !
 !                                                                      !
 !  avgZZ      Quadratic term <zeta*zeta> for free-surface.             !
 !  avgU2      Quadratic term <ubar*ubar> for 2D momentum at U-points.  !
 !  avgV2      Quadratic term <vbar*vbar> for 2D momentum at V-points.  !
-
-# ifdef SOLVE3D
 !  avgUU      Quadratic term <u*u> for 3D momentum at U-points.        !
 !  avgVV      Quadratic term <v*v> for 3D momentum at V-points.        !
 !  avgUV      Quadratic term <u*v> for 3D momentum at RHO-points.      !
@@ -134,7 +65,6 @@
 !               salinity at V-points.                                  !
 !  avgHuonT   Tracer u-transport, Hz*u*t/pn (Tunits m3/s).             !
 !  avgHvomT   Tracer v-transport, Hz*v*t/pn (Tunits m3/s).             !
-# endif
 !                                                                      !
 !  Time-averages vorticity fields.                                     !
 !                                                                      !
@@ -146,166 +76,70 @@
 !=======================================================================
 !
         USE mod_kinds
-
         implicit none
-
         TYPE T_AVERAGE
 !
 !  Time-averaged state variables.
 !
           real(r8), pointer :: avgzeta(:,:)
-# ifdef SURFACE_OVERFLUX_FIX
           real(r8), pointer :: avgssflxSOF(:,:)
           real(r8), pointer :: avgshflxSOF(:,:)
-# endif
-# ifdef ICESHELF
           real(r8), pointer :: avgismr(:,:)
           real(r8), pointer :: avgustar(:,:)
           real(r8), pointer :: avgTstar(:,:)
-# endif
-
           real(r8), pointer :: avgu2d(:,:)
           real(r8), pointer :: avgv2d(:,:)
-
           real(r8), pointer :: avgu2dE(:,:)
           real(r8), pointer :: avgv2dN(:,:)
-
-# ifdef SOLVE3D
           real(r8), pointer :: avgu3d(:,:,:)
           real(r8), pointer :: avgv3d(:,:,:)
-
           real(r8), pointer :: avgu3dE(:,:,:)
           real(r8), pointer :: avgv3dN(:,:,:)
-
           real(r8), pointer :: avgw3d(:,:,:)
           real(r8), pointer :: avgwvel(:,:,:)
-
           real(r8), pointer :: avgrho(:,:,:)
           real(r8), pointer :: avgt(:,:,:,:)
-
-#  if defined LMD_MIXING || defined MY25_MIXING || defined GLS_MIXING
           real(r8), pointer :: avgAKv(:,:,:)
           real(r8), pointer :: avgAKt(:,:,:)
           real(r8), pointer :: avgAKs(:,:,:)
-#  endif
-#  ifdef LMD_SKPP
           real(r8), pointer :: avghsbl(:,:)
-#  endif
-#  ifdef LMD_BKPP
           real(r8), pointer :: avghbbl(:,:)
-#  endif
-# endif
-
-# if defined FORWARD_WRITE && defined SOLVE3D
-!
-!  Time-averaged 2D/3D coupling terms.
-!
-          real(r8), pointer :: avgDU_avg1(:,:)
-          real(r8), pointer :: avgDU_avg2(:,:)
-
-          real(r8), pointer :: avgDV_avg1(:,:)
-          real(r8), pointer :: avgDV_avg2(:,:)
-# endif
 !
 !  Time-averaged surface and bottom fluxes.
 !
           real(r8), pointer :: avgsus(:,:)
           real(r8), pointer :: avgsvs(:,:)
-
           real(r8), pointer :: avgbus(:,:)
           real(r8), pointer :: avgbvs(:,:)
-
-# ifdef SOLVE3D
-#  if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-          real(r8), pointer :: avgPair(:,:)
-#  endif
-#  if defined BULK_FLUXES || defined ECOSIM
-          real(r8), pointer :: avgUwind(:,:)
-          real(r8), pointer :: avgVwind(:,:)
-#  endif
           real(r8), pointer :: avgstf(:,:)
           real(r8), pointer :: avgswf(:,:)
-#  ifdef SHORTWAVE
           real(r8), pointer :: avgsrf(:,:)
-#  endif
-#  ifdef BULK_FLUXES
-          real(r8), pointer :: avglhf(:,:)
-          real(r8), pointer :: avglrf(:,:)
-          real(r8), pointer :: avgshf(:,:)
-#   ifdef EMINUSP
-          real(r8), pointer :: avgevap(:,:)
-          real(r8), pointer :: avgrain(:,:)
-#   endif
-#  endif
-# endif
-
-# ifdef NEARSHORE_MELLOR
-!
-!  Time-averaged radiation stresses.
-!
-          real(r8), pointer :: avgu2Sd(:,:)
-          real(r8), pointer :: avgv2Sd(:,:)
-
-          real(r8), pointer :: avgu2RS(:,:)
-          real(r8), pointer :: avgv2RS(:,:)
-
-          real(r8), pointer :: avgSxx2d(:,:)
-          real(r8), pointer :: avgSxy2d(:,:)
-          real(r8), pointer :: avgSyy2d(:,:)
-
-#  ifdef SOLVE3D
-          real(r8), pointer :: avgu3Sd(:,:,:)
-          real(r8), pointer :: avgv3Sd(:,:,:)
-
-          real(r8), pointer :: avgu3RS(:,:,:)
-          real(r8), pointer :: avgv3RS(:,:,:)
-
-          real(r8), pointer :: avgSxx3d(:,:,:)
-          real(r8), pointer :: avgSxy3d(:,:,:)
-          real(r8), pointer :: avgSyy3d(:,:,:)
-#   ifdef NEARSHORE_MELLOR05
-          real(r8), pointer :: avgSzx3d(:,:,:)
-          real(r8), pointer :: avgSzy3d(:,:,:)
-#   endif
-#  endif
-# endif
 !
 !  Time-averaged quadratic fields.
 !
           real(r8), pointer :: avgZZ(:,:)
           real(r8), pointer :: avgU2(:,:)
           real(r8), pointer :: avgV2(:,:)
-# ifdef SOLVE3D
           real(r8), pointer :: avgUU(:,:,:)
           real(r8), pointer :: avgUV(:,:,:)
           real(r8), pointer :: avgVV(:,:,:)
-
           real(r8), pointer :: avgHuon(:,:,:)
           real(r8), pointer :: avgHvom(:,:,:)
-
           real(r8), pointer :: avgTT(:,:,:,:)
           real(r8), pointer :: avgUT(:,:,:,:)
           real(r8), pointer :: avgVT(:,:,:,:)
-
           real(r8), pointer :: avgHuonT(:,:,:,:)
           real(r8), pointer :: avgHvomT(:,:,:,:)
-# endif
 !
 !  Time-averaged vorticity fields.
 !
           real(r8), pointer :: avgpvor2d(:,:)
           real(r8), pointer :: avgrvor2d(:,:)
-# ifdef SOLVE3D
           real(r8), pointer :: avgpvor3d(:,:,:)
           real(r8), pointer :: avgrvor3d(:,:,:)
-# endif
-
         END TYPE T_AVERAGE
-
         TYPE (T_AVERAGE), allocatable :: AVERAGE(:)
-
       CONTAINS
-
       SUBROUTINE allocate_average (ng, LBi, UBi, LBj, UBj)
 !
 !=======================================================================
@@ -334,16 +168,12 @@
       IF (Aout(idFsur,ng)) THEN
         allocate ( AVERAGE(ng) % avgzeta(LBi:UBi,LBj:UBj) )
       END IF
-
-# ifdef SURFACE_OVERFLUX_FIX
       IF (Aout(idssflxSOF,ng)) THEN
          allocate ( AVERAGE(ng) % avgssflxSOF(LBi:UBi,LBj:UBj) )
       END IF
       IF (Aout(idshflxSOF,ng)) THEN
          allocate ( AVERAGE(ng) % avgshflxSOF(LBi:UBi,LBj:UBj) )
       END IF
-# endif
-# ifdef ICESHELF
       IF (Aout(idismr,ng)) THEN
          allocate ( AVERAGE(ng) % avgismr(LBi:UBi,LBj:UBj) )
       END IF
@@ -353,52 +183,42 @@
       IF (Aout(idTstar,ng)) THEN
          allocate ( AVERAGE(ng) % avgTstar(LBi:UBi,LBj:UBj) )
       END IF
-# endif
-
       IF (Aout(idUbar,ng)) THEN
         allocate ( AVERAGE(ng) % avgu2d(LBi:UBi,LBj:UBj) )
       END IF
       IF (Aout(idVbar,ng)) THEN
         allocate ( AVERAGE(ng) % avgv2d(LBi:UBi,LBj:UBj) )
       END IF
-
       IF (Aout(idu2dE,ng)) THEN
         allocate ( AVERAGE(ng) % avgu2dE(LBi:UBi,LBj:UBj) )
       END IF
       IF (Aout(idv2dN,ng)) THEN
         allocate ( AVERAGE(ng) % avgv2dN(LBi:UBi,LBj:UBj) )
       END IF
-
-# ifdef SOLVE3D
       IF (Aout(idUvel,ng)) THEN
         allocate ( AVERAGE(ng) % avgu3d(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
       IF (Aout(idVvel,ng)) THEN
         allocate ( AVERAGE(ng) % avgv3d(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
-
       IF (Aout(idu3dE,ng)) THEN
         allocate ( AVERAGE(ng) % avgu3dE(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
       IF (Aout(idv3dN,ng)) THEN
         allocate ( AVERAGE(ng) % avgv3dN(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
-
       IF (Aout(idOvel,ng)) THEN
         allocate ( AVERAGE(ng) % avgw3d(LBi:UBi,LBj:UBj,0:N(ng)) )
       END IF
       IF (Aout(idWvel,ng)) THEN
         allocate ( AVERAGE(ng) % avgwvel(LBi:UBi,LBj:UBj,0:N(ng)) )
       END IF
-
       IF (Aout(idDano,ng)) THEN
         allocate ( AVERAGE(ng) % avgrho(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
       IF (ANY(Aout(idTvar(:),ng))) THEN
         allocate ( AVERAGE(ng) % avgt(LBi:UBi,LBj:UBj,N(ng),NT(ng)) )
       END IF
-
-#  if defined LMD_MIXING || defined MY25_MIXING || defined GLS_MIXING
       IF (Aout(idVvis,ng)) THEN
         allocate ( AVERAGE(ng) % avgAKv(LBi:UBi,LBj:UBj,0:N(ng)) )
       END IF
@@ -408,37 +228,12 @@
       IF (Aout(idSdif,ng)) THEN
         allocate ( AVERAGE(ng) % avgAKs(LBi:UBi,LBj:UBj,0:N(ng)) )
       END IF
-#  endif
-#  ifdef LMD_SKPP
       IF (Aout(idHsbl,ng)) THEN
         allocate ( AVERAGE(ng) % avghsbl(LBi:UBi,LBj:UBj) )
       END IF
-#  endif
-#  ifdef LMD_BKPP
       IF (Aout(idHbbl,ng)) THEN
         allocate ( AVERAGE(ng) % avghbbl(LBi:UBi,LBj:UBj) )
       END IF
-#  endif
-# endif
-
-# if defined FORWARD_WRITE && defined SOLVE3D
-!
-!  Time-averaged 2D/3D coupling terms.
-!
-      IF (Aout(idUfx1,ng)) THEN
-        allocate ( AVERAGE(ng) % avgDU_avg1(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idUfx2,ng)) THEN
-        allocate ( AVERAGE(ng) % avgDU_avg2(LBi:UBi,LBj:UBj) )
-      END IF
-
-      IF (Aout(idVfx1,ng)) THEN
-        allocate ( AVERAGE(ng) % avgDV_avg1(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idVfx2,ng)) THEN
-        allocate ( AVERAGE(ng) % avgDV_avg2(LBi:UBi,LBj:UBj) )
-      END IF
-# endif
 !
 !  Time-averaged surface and bottom fluxes.
 !
@@ -448,122 +243,21 @@
       IF (Aout(idVsms,ng)) THEN
         allocate ( AVERAGE(ng) % avgsvs(LBi:UBi,LBj:UBj) )
       END IF
-
       IF (Aout(idUbms,ng)) THEN
         allocate ( AVERAGE(ng) % avgbus(LBi:UBi,LBj:UBj) )
       END IF
       IF (Aout(idVbms,ng)) THEN
         allocate ( AVERAGE(ng) % avgbvs(LBi:UBi,LBj:UBj) )
       END IF
-
-# ifdef SOLVE3D
-#  if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-      IF (Aout(idPair,ng)) THEN
-        allocate ( AVERAGE(ng) % avgPair(LBi:UBi,LBj:UBj) )
-      END IF
-#  endif
-#  if defined BULK_FLUXES || defined ECOSIM
-      IF (Aout(idUair,ng)) THEN
-        allocate ( AVERAGE(ng) % avgUwind(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idVair,ng)) THEN
-        allocate ( AVERAGE(ng) % avgVwind(LBi:UBi,LBj:UBj) )
-      END IF
-#  endif
       IF (Aout(idTsur(itemp),ng)) THEN
         allocate ( AVERAGE(ng) % avgstf(LBi:UBi,LBj:UBj) )
       END IF
       IF (Aout(idTsur(isalt),ng)) THEN
         allocate ( AVERAGE(ng) % avgswf(LBi:UBi,LBj:UBj) )
       END IF
-#  ifdef SHORTWAVE
       IF (Aout(idSrad,ng)) THEN
         allocate ( AVERAGE(ng) % avgsrf(LBi:UBi,LBj:UBj) )
       END IF
-#  endif
-#  ifdef BULK_FLUXES
-      IF (Aout(idLhea,ng)) THEN
-        allocate ( AVERAGE(ng) % avglhf(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idLrad,ng)) THEN
-        allocate ( AVERAGE(ng) % avglrf(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idShea,ng)) THEN
-        allocate ( AVERAGE(ng) % avgshf(LBi:UBi,LBj:UBj) )
-      END IF
-#   ifdef EMINUSP
-      IF (Aout(idevap,ng)) THEN
-        allocate ( AVERAGE(ng) % avgevap(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idrain,ng)) THEN
-        allocate ( AVERAGE(ng) % avgrain(LBi:UBi,LBj:UBj) )
-      END IF
-#   endif
-#  endif
-# endif
-
-# ifdef NEARSHORE_MELLOR
-!
-!  Time-averaged radiation stresses.
-!
-      IF (Aout(idU2Sd,ng)) THEN
-        allocate ( AVERAGE(ng) % avgu2Sd(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idV2Sd,ng)) THEN
-        allocate ( AVERAGE(ng) % avgv2Sd(LBi:UBi,LBj:UBj) )
-      END IF
-
-      IF (Aout(idU2rs,ng)) THEN
-        allocate ( AVERAGE(ng) % avgu2RS(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idV2rs,ng)) THEN
-        allocate ( AVERAGE(ng) % avgv2RS(LBi:UBi,LBj:UBj) )
-      END IF
-
-      IF (Aout(idW2xx,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSxx2d(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idW2xy,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSxy2d(LBi:UBi,LBj:UBj) )
-      END IF
-      IF (Aout(idW2yy,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSyy2d(LBi:UBi,LBj:UBj) )
-      END IF
-
-#  ifdef SOLVE3D
-      IF (Aout(idU3Sd,ng)) THEN
-        allocate ( AVERAGE(ng) % avgu3Sd(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-      IF (Aout(idV3Sd,ng)) THEN
-        allocate ( AVERAGE(ng) % avgv3Sd(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-
-      IF (Aout(idU3rs,ng)) THEN
-        allocate ( AVERAGE(ng) % avgu3RS(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-      IF (Aout(idV3rs,ng)) THEN
-        allocate ( AVERAGE(ng) % avgv3RS(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-
-      IF (Aout(idW3xx,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSxx3d(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-      IF (Aout(idW3xy,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSxy3d(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-      IF (Aout(idW3yy,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSyy3d(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-#   ifdef NEARSHORE_MELLOR05
-      IF (Aout(idW3zx,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSzx3d(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-      IF (Aout(idW3zy,ng)) THEN
-        allocate ( AVERAGE(ng) % avgSzy3d(LBi:UBi,LBj:UBj,N(ng)) )
-      END IF
-#   endif
-#  endif
-# endif
 !
 !  Time-averaged quadratic fields.
 !
@@ -576,8 +270,6 @@
       IF (Aout(idV2av,ng)) THEN
         allocate ( AVERAGE(ng) % avgZZ(LBi:UBi,LBj:UBj) )
       END IF
-
-# ifdef SOLVE3D
       IF (Aout(idUUav,ng)) THEN
         allocate ( AVERAGE(ng) % avgUU(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
@@ -587,14 +279,12 @@
       IF (Aout(idUVav,ng)) THEN
         allocate ( AVERAGE(ng) % avgUV(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
-
       IF (Aout(idHUav,ng)) THEN
         allocate ( AVERAGE(ng) % avgHuon(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
       IF (Aout(idHVav,ng)) THEN
         allocate ( AVERAGE(ng) % avgHvom(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
-
       IF (ANY(Aout(idTTav(:),ng))) THEN
         allocate ( AVERAGE(ng) % avgTT(LBi:UBi,LBj:UBj,N(ng),NT(ng)) )
       END IF
@@ -604,14 +294,12 @@
       IF (ANY(Aout(idVTav(:),ng))) THEN
         allocate ( AVERAGE(ng) % avgVT(LBi:UBi,LBj:UBj,N(ng),NT(ng)) )
       END IF
-
       IF (ANY(Aout(iHUTav(:),ng))) THEN
         allocate ( AVERAGE(ng)% avgHuonT(LBi:UBi,LBj:UBj,N(ng),NT(ng)) )
       END IF
       IF (ANY(Aout(iHVTav(:),ng))) THEN
         allocate ( AVERAGE(ng)% avgHvomT(LBi:UBi,LBj:UBj,N(ng),NT(ng)) )
       END IF
-# endif
 !
 !  Time-averaged vorticity fields.
 !
@@ -621,18 +309,14 @@
       IF (Aout(id2dRV,ng)) THEN
         allocate ( AVERAGE(ng) % avgrvor2d(LBi:UBi,LBj:UBj) )
       END IF
-# ifdef SOLVE3D
       IF (Aout(id3dPV,ng)) THEN
         allocate ( AVERAGE(ng) % avgpvor3d(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
       IF (Aout(id3dRV,ng)) THEN
         allocate ( AVERAGE(ng) % avgrvor3d(LBi:UBi,LBj:UBj,N(ng)) )
       END IF
-# endif
-
       RETURN
       END SUBROUTINE allocate_average
-
       SUBROUTINE initialize_average (ng, tile)
 !
 !=======================================================================
@@ -657,43 +341,74 @@
 !
       integer :: Imin, Imax, Jmin, Jmax
       integer :: i, j
-# ifdef SOLVE3D
       integer :: itrc, k
-# endif
-
       real(r8), parameter :: IniVal = 0.0_r8
-
-# include "set_bounds.h"
+!
+!-----------------------------------------------------------------------
+!  Set lower and upper tile bounds and staggered variables bounds for
+!  this horizontal domain partition.  Notice that if tile=-1, it will
+!  set the values for the global grid.
+!-----------------------------------------------------------------------
+!
+      integer :: Istr, IstrB, IstrP, IstrR, IstrT, IstrM, IstrU
+      integer :: Iend, IendB, IendP, IendR, IendT
+      integer :: Jstr, JstrB, JstrP, JstrR, JstrT, JstrM, JstrV
+      integer :: Jend, JendB, JendP, JendR, JendT
+      integer :: Istrm3, Istrm2, Istrm1, IstrUm2, IstrUm1
+      integer :: Iendp1, Iendp2, Iendp2i, Iendp3
+      integer :: Jstrm3, Jstrm2, Jstrm1, JstrVm2, JstrVm1
+      integer :: Jendp1, Jendp2, Jendp2i, Jendp3
+!
+      Istr   =BOUNDS(ng) % Istr   (tile)
+      IstrB  =BOUNDS(ng) % IstrB  (tile)
+      IstrM  =BOUNDS(ng) % IstrM  (tile)
+      IstrP  =BOUNDS(ng) % IstrP  (tile)
+      IstrR  =BOUNDS(ng) % IstrR  (tile)
+      IstrT  =BOUNDS(ng) % IstrT  (tile)
+      IstrU  =BOUNDS(ng) % IstrU  (tile)
+      Iend   =BOUNDS(ng) % Iend   (tile)
+      IendB  =BOUNDS(ng) % IendB  (tile)
+      IendP  =BOUNDS(ng) % IendP  (tile)
+      IendR  =BOUNDS(ng) % IendR  (tile)
+      IendT  =BOUNDS(ng) % IendT  (tile)
+      Jstr   =BOUNDS(ng) % Jstr   (tile)
+      JstrB  =BOUNDS(ng) % JstrB  (tile)
+      JstrM  =BOUNDS(ng) % JstrM  (tile)
+      JstrP  =BOUNDS(ng) % JstrP  (tile)
+      JstrR  =BOUNDS(ng) % JstrR  (tile)
+      JstrT  =BOUNDS(ng) % JstrT  (tile)
+      JstrV  =BOUNDS(ng) % JstrV  (tile)
+      Jend   =BOUNDS(ng) % Jend   (tile)
+      JendB  =BOUNDS(ng) % JendB  (tile)
+      JendP  =BOUNDS(ng) % JendP  (tile)
+      JendR  =BOUNDS(ng) % JendR  (tile)
+      JendT  =BOUNDS(ng) % JendT  (tile)
+!
+      Istrm3 =BOUNDS(ng) % Istrm3 (tile)            ! Istr-3
+      Istrm2 =BOUNDS(ng) % Istrm2 (tile)            ! Istr-2
+      Istrm1 =BOUNDS(ng) % Istrm1 (tile)            ! Istr-1
+      IstrUm2=BOUNDS(ng) % IstrUm2(tile)            ! IstrU-2
+      IstrUm1=BOUNDS(ng) % IstrUm1(tile)            ! IstrU-1
+      Iendp1 =BOUNDS(ng) % Iendp1 (tile)            ! Iend+1
+      Iendp2 =BOUNDS(ng) % Iendp2 (tile)            ! Iend+2
+      Iendp2i=BOUNDS(ng) % Iendp2i(tile)            ! Iend+2 interior
+      Iendp3 =BOUNDS(ng) % Iendp3 (tile)            ! Iend+3
+      Jstrm3 =BOUNDS(ng) % Jstrm3 (tile)            ! Jstr-3
+      Jstrm2 =BOUNDS(ng) % Jstrm2 (tile)            ! Jstr-2
+      Jstrm1 =BOUNDS(ng) % Jstrm1 (tile)            ! Jstr-1
+      JstrVm2=BOUNDS(ng) % JstrVm2(tile)            ! JstrV-2
+      JstrVm1=BOUNDS(ng) % JstrVm1(tile)            ! JstrV-1
+      Jendp1 =BOUNDS(ng) % Jendp1 (tile)            ! Jend+1
+      Jendp2 =BOUNDS(ng) % Jendp2 (tile)            ! Jend+2
+      Jendp2i=BOUNDS(ng) % Jendp2i(tile)            ! Jend+2 interior
+      Jendp3 =BOUNDS(ng) % Jendp3 (tile)            ! Jend+3
 !
 !  Set array initialization range.
 !
-# ifdef DISTRIBUTE
       Imin=BOUNDS(ng)%LBi(tile)
       Imax=BOUNDS(ng)%UBi(tile)
       Jmin=BOUNDS(ng)%LBj(tile)
       Jmax=BOUNDS(ng)%UBj(tile)
-# else
-      IF (DOMAIN(ng)%Western_Edge(tile)) THEN
-        Imin=BOUNDS(ng)%LBi(tile)
-      ELSE
-        Imin=Istr
-      END IF
-      IF (DOMAIN(ng)%Eastern_Edge(tile)) THEN
-        Imax=BOUNDS(ng)%UBi(tile)
-      ELSE
-        Imax=Iend
-      END IF
-      IF (DOMAIN(ng)%Southern_Edge(tile)) THEN
-        Jmin=BOUNDS(ng)%LBj(tile)
-      ELSE
-        Jmin=Jstr
-      END IF
-      IF (DOMAIN(ng)%Northern_Edge(tile)) THEN
-        Jmax=BOUNDS(ng)%UBj(tile)
-      ELSE
-        Jmax=Jend
-      END IF
-# endif
 !
 !-----------------------------------------------------------------------
 !  Initialize module variables.
@@ -708,8 +423,6 @@
           END DO
         END DO
       END IF
-
-# ifdef SURFACE_OVERFLUX_FIX
       IF (Aout(idssflxSOF,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -724,8 +437,6 @@
           END DO
         END DO
       END IF
-# endif
-# ifdef ICESHELF
       IF (Aout(idismr,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -733,8 +444,20 @@
           END DO
         END DO
       END IF
-# endif
-
+      IF (Aout(idustar,ng)) THEN
+        DO j=Jmin,Jmax
+          DO i=Imin,Imax
+            AVERAGE(ng) % avgustar(i,j) = IniVal
+          END DO
+        END DO
+      END IF
+      IF (Aout(idTstar,ng)) THEN
+        DO j=Jmin,Jmax
+          DO i=Imin,Imax
+            AVERAGE(ng) % avgTstar(i,j) = IniVal
+          END DO
+        END DO
+      END IF
       IF (Aout(idUbar,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -749,7 +472,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idu2dE,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -764,8 +486,6 @@
           END DO
         END DO
       END IF
-
-# ifdef SOLVE3D
       IF (Aout(idUvel,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -784,7 +504,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idu3dE,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -803,7 +522,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idOvel,ng)) THEN
         DO k=0,N(ng)
           DO j=Jmin,Jmax
@@ -822,7 +540,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idDano,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -843,8 +560,6 @@
           END DO
         END DO
       END IF
-
-#  if defined LMD_MIXING || defined MY25_MIXING || defined GLS_MIXING
       IF (Aout(idVvis,ng)) THEN
         DO k=0,N(ng)
           DO j=Jmin,Jmax
@@ -872,9 +587,6 @@
           END DO
         END DO
       END IF
-#  endif
-
-#  ifdef LMD_SKPP
       IF (Aout(idHsbl,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -882,9 +594,6 @@
           END DO
         END DO
       END IF
-#  endif
-
-#  ifdef LMD_BKPP
       IF (Aout(idHbbl,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -892,43 +601,6 @@
           END DO
         END DO
       END IF
-#  endif
-# endif
-
-# if defined FORWARD_WRITE && defined SOLVE3D
-!
-!  Time-averaged 2D/3D coupling terms.
-!
-      IF (Aout(idUfx1,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgDU_avg1(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idUfx2,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgDU_avg2(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-
-      IF (Aout(idVfx1,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgDV_avg1(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idVfx2,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgDV_avg2(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-# endif
 !
 !  Time-averaged surface and bottom fluxes.
 !
@@ -946,7 +618,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idUbms,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -961,33 +632,6 @@
           END DO
         END DO
       END IF
-
-# ifdef SOLVE3D
-#  if defined BULK_FLUXES || defined ECOSIM || defined ATM_PRESS
-      IF (Aout(idPair,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgPair(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-#  endif
-#  if defined BULK_FLUXES || defined ECOSIM
-      IF (Aout(idUair,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgUwind(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idVair,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgVwind(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-#  endif
       IF (Aout(idTsur(itemp),ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -1002,8 +646,6 @@
           END DO
         END DO
       END IF
-
-#  ifdef SHORTWAVE
       IF (Aout(idSrad,ng)) THEN
         DO j=Jmin,Jmax
           DO i=Imin,Imax
@@ -1011,194 +653,6 @@
           END DO
         END DO
       END IF
-#  endif
-
-#  ifdef BULK_FLUXES
-      IF (Aout(idLhea,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avglhf(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idLrad,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avglrf(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idShea,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgshf(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-
-#   ifdef EMINUSP
-      IF (Aout(idevap,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgevap(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idrain,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgrain(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-#   endif
-#  endif
-# endif
-
-# ifdef NEARSHORE_MELLOR
-!
-!  Time-averaged radiation stresses.
-!
-      IF (Aout(idU2Sd,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgu2Sd(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idV2Sd,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgv2Sd(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-
-      IF (Aout(idU2rs,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgu2RS(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idV2rs,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgv2RS(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-
-      IF (Aout(idW2xx,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgSxx2d(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idW2xy,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgSxy2d(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-      IF (Aout(idW2yy,ng)) THEN
-        DO j=Jmin,Jmax
-          DO i=Imin,Imax
-            AVERAGE(ng) % avgSyy2d(i,j) = IniVal
-          END DO
-        END DO
-      END IF
-
-#  ifdef SOLVE3D
-      IF (Aout(idU3Sd,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgu3Sd(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-      IF (Aout(idV3Sd,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgv3Sd(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-
-      IF (Aout(idU3rs,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgu3RS(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-      IF (Aout(idV3rs,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgv3RS(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-
-      IF (Aout(idW3xx,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgSxx3d(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-      IF (Aout(idW3xy,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgSxy3d(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-      IF (Aout(idW3yy,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgSyy3d(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-#   ifdef NEARSHORE_MELLOR05
-      IF (Aout(idW3zx,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgSzx3d(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-      IF (Aout(idW3zy,ng)) THEN
-        DO k=1,N(ng)
-          DO j=Jmin,Jmax
-            DO i=Imin,Imax
-              AVERAGE(ng) % avgSzy3d(i,j,k) = IniVal
-            END DO
-          END DO
-        END DO
-      END IF
-#   endif
-#  endif
-# endif
 !
 !  Time-averaged quadratic fields.
 !
@@ -1223,8 +677,6 @@
           END DO
         END DO
       END IF
-
-# ifdef SOLVE3D
       IF (Aout(idUUav,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -1252,7 +704,6 @@
           END DO
         END DO
       END IF
-
       IF (Aout(idHUav,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -1271,7 +722,6 @@
           END DO
         END DO
       END IF
-
       IF (ANY(Aout(idTTav(:),ng))) THEN
         DO itrc=1,NAT
           DO k=1,N(ng)
@@ -1305,7 +755,6 @@
           END DO
         END DO
       END IF
-
       IF (ANY(Aout(iHUTav(:),ng))) THEN
         DO itrc=1,NAT
           DO k=1,N(ng)
@@ -1328,7 +777,6 @@
           END DO
         END DO
       END IF
-# endif
 !
 !  Time-averaged vorticity fields.
 !
@@ -1346,7 +794,6 @@
           END DO
         END DO
       END IF
-# ifdef SOLVE3D
       IF (Aout(id3dPV,ng)) THEN
         DO k=1,N(ng)
           DO j=Jmin,Jmax
@@ -1365,9 +812,6 @@
           END DO
         END DO
       END IF
-# endif
-
       RETURN
       END SUBROUTINE initialize_average
-#endif
       END MODULE mod_average
