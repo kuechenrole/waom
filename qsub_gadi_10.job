@@ -1,0 +1,27 @@
+#!/bin/bash
+#PBS -P gh9
+#PBS -q normal
+#PBS -l mem=96gb,walltime=00:10:00,ncpus=288
+#PBS -l storage=gdata/gh9+scratch/gh9
+#PBS -l wd
+#PBS -N 10km
+
+# Modules for raijin
+#module load intel-fc
+#module load netcdf
+#module load openmpi
+
+# Modules for gadi
+module unload openmpi intel-fc intel-cc
+module load openmpi/4.0.2
+module load intel-compiler/2020.0.166
+module load netcdf/4.7.1
+
+cd /scratch/gh9/wgh581/waom_DoubleMelt
+
+make clean && make -f makefile -j 256
+
+# Raijin:
+#mpiexec oceanM ROMS/External/ocean_waom10.in > ocean.log
+# Gadi:
+mpirun -np 256 oceanM ROMS/External/ocean_waom10.in > ocean.log
