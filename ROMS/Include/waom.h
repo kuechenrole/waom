@@ -104,6 +104,7 @@
 
 #define PERFECT_RESTART
 #define AVERAGES
+#define PARALLEL_IO
 
 /************ other ************************/
 
