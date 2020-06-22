@@ -105,6 +105,7 @@
 #define PERFECT_RESTART
 #define AVERAGES
 #define PARALLEL_IO
+#define HDF5
 
 /************ other ************************/
 

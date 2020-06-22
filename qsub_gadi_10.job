@@ -15,13 +15,13 @@
 module unload openmpi intel-fc intel-cc
 module load openmpi/4.0.2
 module load intel-compiler/2020.0.166
-module load netcdf/4.7.1
+module load netcdf/4.7.1p
 
-cd /scratch/gh9/wgh581/waom_DoubleMelt
+#cd /scratch/gh9/wgh581/waom_DoubleMelt
 
 make clean && make -f makefile -j 256
 
 # Raijin:
 #mpiexec oceanM ROMS/External/ocean_waom10.in > ocean.log
 # Gadi:
-mpirun -np 256 oceanM ROMS/External/ocean_waom10.in > ocean.log
+mpirun -mca io ompio oceanM ROMS/External/ocean_waom10.in > ocean.log

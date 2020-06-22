@@ -43,9 +43,9 @@
 #
 
 ifdef USE_NETCDF4
-        NC_CONFIG ?= /apps/netcdf/4.7.1/bin/nc-config
-    NETCDF_INCDIR ?= /apps/netcdf/4.7.1/include/Intel
-             LIBS := /apps/netcdf/4.7.1/lib/Intel/libnetcdff.so
+        NC_CONFIG ?= /apps/netcdf/4.7.1p/bin/nc-config
+    NETCDF_INCDIR ?= /apps/netcdf/4.7.1p/include/Intel
+             LIBS := -L/apps/netcdf/4.7.1p/lib -lnetcdff#/apps/netcdf/4.7.1/lib/Intel/libnetcdff.so
 else
     NETCDF_INCDIR ?= /opt/netcdf-3.6.3/f90
     NETCDF_LIBDIR ?= /opt/netcdf-3.6.3/libsrc/.libs

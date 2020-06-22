@@ -173,7 +173,7 @@
 !!    integer, parameter :: IO_nontiled_access = 0   ! nf90_independent
 !!    integer, parameter :: IO_tiled_access    = 1   ! nf90_independent
 !!
-      integer, parameter :: IO_nontiled_access = nf90_independent
+      integer, parameter :: IO_nontiled_access = nf90_collective !nf90_independent
       integer, parameter :: IO_tiled_access    = nf90_collective
 #endif
 !
