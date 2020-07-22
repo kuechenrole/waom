@@ -776,8 +776,8 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
 ! Input NetCDF file names, [1:Ngrids].
 
-     GRDNAME == /g/data2/gh9/oxr581/waom_frc/waom2_grd.nc
-     ININAME == /g/data2/gh9/oxr581/waom_frc/waom2_ini_premixed.nc
+     GRDNAME == /g/data/gh9/oxr581/waom_frc/waom2_grd.nc
+     ININAME == /g/data/gh9/oxr581/waom_frc/waom2_ini_premixed.nc
      ITLNAME == ocean_itl.nc
      IRPNAME == ocean_irp.nc
      IADNAME == ocean_iad.nc
@@ -796,7 +796,7 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 ! line per entry with a vertical bar (|) symbol after each entry,
 ! except the last one.
 
-     BRYNAME == /g/data2/gh9/oxr581/waom_frc/waom2_bry.nc
+     BRYNAME == /g/data/gh9/oxr581/waom_frc/waom2_bry.nc
      CLMNAME == ocean_clm.nc
 
 ! Input climatology nudging coefficients file name.
@@ -821,12 +821,12 @@ Dout(iTvdif) == T T     ! temp_vdiff, ...    vertical diffusion
 
      NFFILES == 6                          ! number of unique forcing files
 
-     FRCNAME == /g/data2/gh9/oxr581/waom_frc/waom2_tds.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom2_shflux.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom2_swflux.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom2_sustr.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom2_svstr.nc \
-                /g/data2/gh9/oxr581/waom_frc/waom2_nudge.nc
+     FRCNAME == /g/data/gh9/oxr581/waom_frc/waom2_tds.nc \
+                /g/data/gh9/oxr581/waom_frc/waom2_shflux.nc \
+                /g/data/gh9/oxr581/waom_frc/waom2_swflux.nc \
+                /g/data/gh9/oxr581/waom_frc/waom2_sustr.nc \
+                /g/data/gh9/oxr581/waom_frc/waom2_svstr.nc \
+                /g/data/gh9/oxr581/waom_frc/waom2_nudge.nc
 
 ! Output NetCDF file names, [1:Ngrids].
 

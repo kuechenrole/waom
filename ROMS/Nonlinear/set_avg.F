@@ -652,7 +652,7 @@
           DO j=JstrR,JendR
             DO i=IstrR,IendR
               AVERAGE(ng)%avgustar(i,j)=AVERAGE(ng)%avgustar(i,j)+      &
-     &                                 ICESHELFVAR(ng)%m(i,j)
+     &                                 ICESHELFVAR(ng)%ustar(i,j)
             END DO
           END DO
         END IF
@@ -660,7 +660,7 @@
           DO j=JstrR,JendR
             DO i=IstrR,IendR
               AVERAGE(ng)%avgTstar(i,j)=AVERAGE(ng)%avgTstar(i,j)+      &
-     &                                 ICESHELFVAR(ng)%m(i,j)
+     &                                 ICESHELFVAR(ng)%Tstar(i,j)
             END DO
           END DO
         END IF
