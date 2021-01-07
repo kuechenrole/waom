@@ -106,7 +106,7 @@ GridsInLayer =  1
 ! shared-memory configurations used to determine tile horizontal range
 ! indices (Istr,Iend) and (Jstr,Jend), [1:Ngrids].
 
-      NtileI == 16                               ! I-direction partition
+      NtileI == 18                               ! I-direction partition
       NtileJ == 16                               ! J-direction partition
 
 ! Set lateral boundary conditions keyword. Notice that a value is expected

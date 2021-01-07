@@ -77,6 +77,12 @@
 #ifdef _OPENMP
       integer :: my_threadnum
 #endif
+#ifdef PROFILE
+      integer ( kind = 4 ) error
+      integer ( kind = 4 ) id
+      integer ( kind = 4 ) p
+      real ( kind = 8 ) wtime
+#endif
 
 #ifdef DISTRIBUTE
 !
@@ -92,6 +98,14 @@
       CALL mpi_comm_rank (OCN_COMM_WORLD, MyRank, MyError)
       CALL mpi_comm_size (OCN_COMM_WORLD, MySize, MyError)
 #endif
+#ifdef PROFILE
+      call MPI_Comm_size ( OCN_COMM_WORLD, p, error )
+      call MPI_Comm_rank ( OCN_COMM_WORLD, id, error )
+      if ( id == 0 ) then
+      wtime = MPI_Wtime ( )
+      end if
+#endif
+
 !
 !-----------------------------------------------------------------------
 !  On first pass, initialize model parameters a variables for all
@@ -198,6 +212,13 @@
 !  Initialize run or ensemble counter.
 !
       Nrun=1
+#ifdef PROFILE
+      if (id == 0) then
+        wtime = MPI_Wtime ( ) - wtime
+        write ( *, '(a,i1,2x,a,g14.6,a)' ) &
+        'P', id, '  Elapsed wall clock time for initialization = ', wtime, ' seconds.'
+      end if
+#endif
 
 #ifdef VERIFICATION
 !
@@ -241,6 +262,19 @@
 !  Local variable declarations.
 !
       integer :: ng
+#ifdef PROFILE
+      integer ( kind = 4 ) error
+      integer ( kind = 4 ) id
+      integer ( kind = 4 ) p
+      real ( kind = 8 ) wtime
+      call MPI_Comm_size ( OCN_COMM_WORLD, p, error )
+      call MPI_Comm_rank ( OCN_COMM_WORLD, id, error )
+
+      if ( id == 0 ) then
+        wtime = MPI_Wtime ( )
+      end if
+
+#endif
 !
 !-----------------------------------------------------------------------
 !  Time-step nonlinear model over all nested grids, if applicable.
@@ -260,6 +294,16 @@
 #else
       CALL main2d (RunInterval)
 #endif
+#ifdef PROFILE
+
+      if ( id == 0 ) then
+        wtime = MPI_Wtime ( ) - wtime
+	write ( *, '(a,i1,2x,a,g14.6,a)' ) &
+        'P', id, '  Elapsed wall clock time for time stepping = ', wtime, ' seconds.'
+      end if
+
+#endif
+
 !$OMP END PARALLEL
 
       IF (exit_flag.ne.NoError) RETURN
