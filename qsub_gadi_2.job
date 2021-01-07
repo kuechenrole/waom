@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -P gi0
+#PBS -q normal
+#PBS -l mem=20736GB,walltime=01:00:00,ncpus=5184
+#PBS -l storage=gdata/gh9+gdata/gi0+scratch/gh9
+#PBS -l wd
+#PBS -N 2km
+
+module unload openmpi intel-fc intel-cc
+module load openmpi/4.0.2
+module load intel-compiler/2020.0.166
+module load netcdf/4.7.1p
+
+#make clean && make -f makefile -j 256
+
+mpirun -mca io ompio oceanM ROMS/External/ocean_waom2.in > ocean2.log
